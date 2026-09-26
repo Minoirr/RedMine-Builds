@@ -1,0 +1,10893 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>HypeMine Builds</title>
+
+
+
+<style>
+
+:root{
+
+--accent:#7c5cff;
+
+--accent2:#9b86ff;
+
+--bg:#07080c;
+
+--sidebar:#0b0d12;
+
+--card:#10131a;
+
+--border:#202530;
+
+--text:#f5f7fb;
+
+--muted:#858d9f;
+
+--success:#48d68b;
+
+--danger:#ff5577;
+
+--smooth:.25s;
+
+
+
+
+
+--season-bg:#07080c;
+
+--season-glow:rgba(124,92,255,.18);
+
+
+
+
+
+}
+
+
+
+*{box-sizing:border-box}
+
+
+
+html{scroll-behavior:smooth}
+
+
+
+body{
+
+margin:0;
+
+background:var(--bg);
+
+color:var(--text);
+
+font-family:Arial,Helvetica,sans-serif;
+
+overflow-x:hidden;
+
+transition:
+
+background .6s ease,
+
+color .6s ease;
+
+}
+
+
+
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+a{text-decoration:none;color:inherit}
+
+
+
+.app{
+
+display:flex;
+
+min-height:100vh;
+
+}
+
+
+
+/* =========================
+
+GALAXY BACKGROUND
+
+========================= */
+
+
+
+#galaxyCanvas{
+
+position:fixed;
+
+inset:0;
+
+width:100%;
+
+height:100%;
+
+pointer-events:none;
+
+z-index:-1;
+
+opacity:0;
+
+transition:opacity .7s ease;
+
+}
+
+
+
+body.galaxy-mode #galaxyCanvas{
+
+opacity:1;
+
+}
+
+
+
+body.galaxy-mode{
+
+background:
+
+radial-gradient(
+
+circle at 50% 30%,
+
+rgba(124,92,255,.16),
+
+transparent 35%
+
+),
+
+#03040a;
+
+}
+
+
+
+body.galaxy-mode .sidebar{
+
+background:rgba(4,5,12,.86);
+
+}
+
+
+
+body.galaxy-mode .card,
+
+body.galaxy-mode .stat,
+
+body.galaxy-mode .music-card,
+
+body.galaxy-mode .playlists{
+
+box-shadow:
+
+0 0 40px rgba(124,92,255,.07),
+
+inset 0 0 30px rgba(124,92,255,.02);
+
+}
+
+
+
+/* =========================
+
+SEASONS
+
+========================= */
+
+
+
+body.season-summer{
+
+--accent:#ff9d32;
+
+--accent2:#ffd166;
+
+--season-bg:#080805;
+
+--season-glow:rgba(255,157,50,.2);
+
+}
+
+
+
+body.season-spring{
+
+--accent:#d95cff;
+
+--accent2:#ff91db;
+
+--season-bg:#09070b;
+
+--season-glow:rgba(217,92,255,.2);
+
+}
+
+
+
+body.season-autumn{
+
+--accent:#ff6b2c;
+
+--accent2:#ffb347;
+
+--season-bg:#0b0705;
+
+--season-glow:rgba(255,107,44,.2);
+
+}
+
+
+
+body.season-winter{
+
+--accent:#4ba8ff;
+
+--accent2:#9bdcff;
+
+--season-bg:#05090e;
+
+--season-glow:rgba(75,168,255,.2);
+
+}
+
+
+
+body.season-secret{
+
+--accent:#ff2df7;
+
+--accent2:#00fff0;
+
+--season-bg:#030008;
+
+--season-glow:rgba(255,45,247,.25);
+
+}
+
+
+
+body[class*="season-"]{
+
+background:
+
+radial-gradient(
+
+circle at 80% 15%,
+
+var(--season-glow),
+
+transparent 30%
+
+),
+
+var(--season-bg);
+
+}
+
+
+
+.season-particles{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+z-index:-1;
+
+overflow:hidden;
+
+opacity:0;
+
+transition:.6s;
+
+}
+
+
+
+body.season-summer .season-particles,
+
+body.season-spring .season-particles,
+
+body.season-autumn .season-particles,
+
+body.season-winter .season-particles,
+
+body.season-secret .season-particles{
+
+opacity:1;
+
+}
+
+
+
+.season-particle{
+
+position:absolute;
+
+top:-30px;
+
+animation:fall linear infinite;
+
+opacity:.7;
+
+}
+
+
+
+@keyframes fall{
+
+to{
+
+transform:translateY(110vh) rotate(360deg);
+
+}
+
+}
+
+
+
+/* =========================
+
+SIDEBAR
+
+========================= */
+
+
+
+.sidebar{
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+bottom:0;
+
+width:245px;
+
+background:rgba(11,13,18,.96);
+
+border-right:1px solid var(--border);
+
+padding:22px 14px;
+
+z-index:1000;
+
+display:flex;
+
+flex-direction:column;
+
+transition:.4s;
+
+}
+
+
+
+.logo{
+
+padding:8px 12px 25px;
+
+font-size:20px;
+
+font-weight:900;
+
+letter-spacing:-.7px;
+
+}
+
+
+
+.logo span{color:var(--accent2)}
+
+
+
+.version{
+
+display:block;
+
+margin-top:5px;
+
+color:#596173;
+
+font-size:9px;
+
+font-weight:700;
+
+}
+
+
+
+.menu-title{
+
+padding:12px;
+
+color:#505869;
+
+font-size:9px;
+
+font-weight:900;
+
+text-transform:uppercase;
+
+letter-spacing:1px;
+
+}
+
+
+
+.nav{
+
+display:flex;
+
+flex-direction:column;
+
+gap:4px;
+
+}
+
+
+
+.nav button{
+
+width:100%;
+
+height:44px;
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:0 13px;
+
+color:var(--muted);
+
+background:transparent;
+
+border:1px solid transparent;
+
+border-radius:10px;
+
+text-align:left;
+
+font-size:12px;
+
+font-weight:800;
+
+transition:var(--smooth);
+
+}
+
+
+
+.nav button:hover{
+
+color:white;
+
+background:#11141b;
+
+transform:translateX(3px);
+
+}
+
+
+
+.nav button.active{
+
+color:white;
+
+background:rgba(124,92,255,.13);
+
+border-color:rgba(124,92,255,.35);
+
+box-shadow:0 0 20px rgba(124,92,255,.1);
+
+}
+
+
+
+.nav-icon{
+
+width:24px;
+
+text-align:center;
+
+font-size:16px;
+
+}
+
+
+
+.music-nav{color:#bbaeff!important}
+
+
+
+.sidebar-bottom{
+
+margin-top:auto;
+
+}
+
+
+
+.profile-mini{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:12px;
+
+margin-bottom:8px;
+
+border:1px solid var(--border);
+
+background:#10131a;
+
+border-radius:11px;
+
+}
+
+
+
+.avatar{
+
+width:34px;
+
+height:34px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:linear-gradient(135deg,var(--accent),#242938);
+
+border-radius:9px;
+
+}
+
+
+
+.profile-text{min-width:0}
+
+
+
+.profile-text b{
+
+display:block;
+
+font-size:11px;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+
+
+.profile-text span{
+
+color:var(--muted);
+
+font-size:9px;
+
+}
+
+
+
+.telegram{
+
+width:100%;
+
+height:39px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:9px;
+
+background:#168bd0;
+
+color:white;
+
+font-size:11px;
+
+font-weight:900;
+
+}
+
+
+
+/* =========================
+
+CONTENT
+
+========================= */
+
+
+
+.content{
+
+width:calc(100% - 245px);
+
+margin-left:245px;
+
+min-height:100vh;
+
+}
+
+
+
+.topbar{
+
+height:70px;
+
+position:sticky;
+
+top:0;
+
+z-index:500;
+
+display:flex;
+
+align-items:center;
+
+padding:0 30px;
+
+background:rgba(7,8,12,.85);
+
+backdrop-filter:blur(16px);
+
+border-bottom:1px solid var(--border);
+
+}
+
+
+
+.page-title{
+
+font-size:18px;
+
+font-weight:900;
+
+}
+
+
+
+.topbar-right{
+
+margin-left:auto;
+
+display:flex;
+
+gap:8px;
+
+}
+
+
+
+.search{
+
+width:230px;
+
+height:38px;
+
+padding:0 12px;
+
+color:white;
+
+background:#10131a;
+
+border:1px solid var(--border);
+
+border-radius:9px;
+
+outline:none;
+
+}
+
+
+
+.search:focus{
+
+border-color:var(--accent);
+
+}
+
+
+
+.page{
+
+display:none;
+
+padding:35px;
+
+}
+
+
+
+.page.active{
+
+display:block;
+
+animation:pageEnter .45s cubic-bezier(.22,1,.36,1);
+
+}
+
+
+
+@keyframes pageEnter{
+
+0%{
+
+opacity:0;
+
+transform:translateY(25px) scale(.985);
+
+filter:blur(6px);
+
+}
+
+
+
+
+
+60%{
+
+    opacity:.9;
+
+    filter:blur(1px);
+
+}
+
+
+
+100%{
+
+    opacity:1;
+
+    transform:none;
+
+    filter:none;
+
+}
+
+
+
+
+
+}
+
+
+
+/* =========================
+
+HERO
+
+========================= */
+
+
+
+.hero{
+
+min-height:390px;
+
+display:grid;
+
+grid-template-columns:1fr;
+
+gap:30px;
+
+align-items:center;
+
+}
+
+
+
+.hero-badge{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:8px;
+
+padding:7px 10px;
+
+border-radius:999px;
+
+color:var(--accent2);
+
+background:rgba(124,92,255,.1);
+
+border:1px solid rgba(124,92,255,.3);
+
+font-size:10px;
+
+font-weight:900;
+
+}
+
+
+
+.status-dot{
+
+width:7px;
+
+height:7px;
+
+border-radius:50%;
+
+background:var(--success);
+
+box-shadow:0 0 12px var(--success);
+
+}
+
+
+
+.hero h1{
+
+margin:20px 0 14px;
+
+font-size:clamp(45px,6vw,75px);
+
+line-height:.94;
+
+letter-spacing:-4px;
+
+}
+
+
+
+.gradient{
+
+color:var(--accent2);
+
+text-shadow:0 0 35px var(--season-glow);
+
+}
+
+
+
+.hero p{
+
+max-width:570px;
+
+color:var(--muted);
+
+line-height:1.7;
+
+font-size:14px;
+
+}
+
+
+
+.buttons{
+
+display:flex;
+
+gap:8px;
+
+flex-wrap:wrap;
+
+margin-top:22px;
+
+}
+
+
+
+.btn{
+
+min-height:42px;
+
+padding:0 15px;
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:7px;
+
+border-radius:9px;
+
+border:1px solid var(--border);
+
+color:white;
+
+background:#10131a;
+
+font-size:11px;
+
+font-weight:900;
+
+transition:var(--smooth);
+
+}
+
+
+
+.btn-primary{
+
+background:var(--accent);
+
+border-color:var(--accent);
+
+}
+
+
+
+.btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 10px 30px var(--season-glow);
+
+}
+
+
+
+.section-head{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:end;
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+
+
+h2{
+
+margin:0;
+
+font-size:27px;
+
+letter-spacing:-1px;
+
+}
+
+
+
+.subtitle{
+
+margin:6px 0 0;
+
+color:var(--muted);
+
+font-size:12px;
+
+}
+
+
+
+/* =========================
+
+STATS
+
+========================= */
+
+
+
+.stats{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:10px;
+
+margin-top:30px;
+
+}
+
+
+
+.stat{
+
+padding:18px;
+
+border:1px solid var(--border);
+
+background:var(--card);
+
+border-radius:12px;
+
+transition:var(--smooth);
+
+}
+
+
+
+.stat:hover{
+
+transform:translateY(-3px);
+
+border-color:rgba(124,92,255,.45);
+
+}
+
+
+
+.stat b{
+
+font-size:22px;
+
+}
+
+
+
+.stat span{
+
+display:block;
+
+margin-top:5px;
+
+color:var(--muted);
+
+font-size:10px;
+
+}
+
+
+
+/* =========================
+
+CATALOG
+
+========================= */
+
+
+
+.filters{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:7px;
+
+margin-bottom:18px;
+
+}
+
+
+
+.filter{
+
+height:34px;
+
+padding:0 12px;
+
+color:var(--muted);
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:8px;
+
+font-size:10px;
+
+font-weight:900;
+
+}
+
+
+
+.filter.active,
+
+.filter:hover{
+
+color:white;
+
+border-color:var(--accent);
+
+}
+
+
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+}
+
+
+
+.card{
+
+overflow:hidden;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:13px;
+
+transition:.25s;
+
+}
+
+
+
+.card:hover{
+
+transform:translateY(-5px);
+
+border-color:rgba(124,92,255,.6);
+
+box-shadow:0 20px 45px rgba(0,0,0,.35);
+
+}
+
+
+
+.cover{
+
+height:175px;
+
+position:relative;
+
+overflow:hidden;
+
+background:#18202e;
+
+}
+
+
+
+.cover img{
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+transition:.4s;
+
+}
+
+
+
+.card:hover .cover img{
+
+transform:scale(1.05);
+
+}
+
+
+
+.placeholder{
+
+position:absolute;
+
+inset:0;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:65px;
+
+background:linear-gradient(
+
+135deg,
+
+rgba(124,92,255,.25),
+
+#111720
+
+);
+
+}
+
+
+
+.cover img:not([src=""])+.placeholder{
+
+opacity:0;
+
+}
+
+
+
+.category{
+
+position:absolute;
+
+left:9px;
+
+top:9px;
+
+padding:5px 7px;
+
+color:white;
+
+background:rgba(5,7,10,.9);
+
+border-radius:5px;
+
+font-size:8px;
+
+font-weight:900;
+
+}
+
+
+
+.fav{
+
+position:absolute;
+
+right:9px;
+
+top:9px;
+
+width:31px;
+
+height:31px;
+
+color:white;
+
+background:rgba(5,7,10,.9);
+
+border:0;
+
+border-radius:7px;
+
+}
+
+
+
+.fav.active{
+
+color:var(--danger);
+
+}
+
+
+
+.card-body{
+
+padding:15px;
+
+}
+
+
+
+.card-title-row{
+
+display:flex;
+
+justify-content:space-between;
+
+gap:10px;
+
+}
+
+
+
+.card-title{
+
+margin:0;
+
+font-size:15px;
+
+}
+
+
+
+.rating{
+
+color:#f5c451;
+
+font-size:10px;
+
+white-space:nowrap;
+
+}
+
+
+
+.desc{
+
+min-height:42px;
+
+color:var(--muted);
+
+line-height:1.55;
+
+font-size:11px;
+
+}
+
+
+
+.tags{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:4px;
+
+}
+
+
+
+.tag{
+
+padding:5px 7px;
+
+color:#9da6b7;
+
+background:#181c24;
+
+border-radius:5px;
+
+font-size:8px;
+
+}
+
+
+
+.meta{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:11px;
+
+padding-top:10px;
+
+color:var(--muted);
+
+border-top:1px solid rgba(255,255,255,.06);
+
+font-size:9px;
+
+}
+
+
+
+.card-btn{
+
+width:100%;
+
+height:36px;
+
+margin-top:10px;
+
+color:var(--accent2);
+
+background:rgba(124,92,255,.1);
+
+border:1px solid transparent;
+
+border-radius:8px;
+
+font-size:10px;
+
+font-weight:900;
+
+}
+
+
+
+/* =========================
+
+SETTINGS
+
+========================= */
+
+
+
+.settings{
+
+max-width:900px;
+
+}
+
+
+
+.setting{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:20px;
+
+padding:18px 0;
+
+border-bottom:1px solid var(--border);
+
+}
+
+
+
+.setting-name b{
+
+display:block;
+
+font-size:12px;
+
+}
+
+
+
+.setting-name span{
+
+display:block;
+
+margin-top:5px;
+
+color:var(--muted);
+
+font-size:10px;
+
+}
+
+
+
+.colors{
+
+display:flex;
+
+gap:7px;
+
+}
+
+
+
+.color{
+
+width:28px;
+
+height:28px;
+
+border:2px solid transparent;
+
+border-radius:50%;
+
+}
+
+
+
+.color.active{
+
+border-color:white;
+
+}
+
+
+
+.switch{
+
+width:43px;
+
+height:24px;
+
+position:relative;
+
+border:0;
+
+border-radius:99px;
+
+background:#292e38;
+
+}
+
+
+
+.switch::after{
+
+content:"";
+
+position:absolute;
+
+top:3px;
+
+left:3px;
+
+width:18px;
+
+height:18px;
+
+border-radius:50%;
+
+background:white;
+
+transition:.2s;
+
+}
+
+
+
+.switch.on{
+
+background:var(--accent);
+
+}
+
+
+
+.switch.on::after{
+
+left:22px;
+
+}
+
+
+
+.settings-select{
+
+min-width:180px;
+
+background:#11151d;
+
+color:white;
+
+border:1px solid var(--border);
+
+padding:9px;
+
+border-radius:8px;
+
+outline:none;
+
+}
+
+
+
+
+
+/* =========================
+
+ADVANCED SETTINGS
+
+========================= */
+
+
+
+.settings-group{
+
+  margin-top:16px;
+
+  padding:4px 18px;
+
+  border:1px solid var(--border);
+
+  border-radius:15px;
+
+  background:rgba(255,255,255,.015);
+
+}
+
+
+
+.settings-group-title{
+
+  padding:16px 0 7px;
+
+  font-size:13px;
+
+  font-weight:900;
+
+}
+
+
+
+.settings-note{
+
+  margin:0 0 8px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+}
+
+
+
+.setting-range{
+
+  width:180px;
+
+  accent-color:var(--accent);
+
+}
+
+
+
+.setting-danger{
+
+  border-top:1px solid rgba(255,85,119,.18);
+
+}
+
+
+
+/* =========================
+
+SPECIAL SETTINGS BOX
+
+========================= */
+
+
+
+.premium-box{
+
+max-width:900px;
+
+margin-top:25px;
+
+padding:25px;
+
+border:1px solid rgba(124,92,255,.35);
+
+border-radius:15px;
+
+background:
+
+radial-gradient(
+
+circle at top right,
+
+rgba(124,92,255,.14),
+
+transparent 45%
+
+),
+
+var(--card);
+
+}
+
+
+
+.premium-title{
+
+font-size:22px;
+
+font-weight:900;
+
+}
+
+
+
+.premium-status{
+
+margin-top:8px;
+
+color:var(--muted);
+
+font-size:11px;
+
+}
+
+
+
+
+
+/* =========================
+
+   MODERN PROFILE
+
+   ========================= */
+
+.profile-modern{max-width:900px}.profile-main-card{position:relative;display:flex;align-items:center;gap:24px;padding:28px}.profile-avatar-wrap{position:relative;flex-shrink:0}.profile-main-card .big-avatar{width:110px;height:110px;border-radius:25px;font-size:48px}.avatar-edit{position:absolute;right:-7px;bottom:-7px;width:34px;height:34px;border:2px solid var(--card);border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}.profile-main-info{min-width:0}.profile-main-info h2{margin:4px 0 0}.profile-online{display:flex;align-items:center;gap:7px;color:var(--success);font-size:10px;font-weight:900}.profile-online span{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 10px var(--success)}.profile-since{margin:7px 0 0;color:var(--muted);font-size:10px}.profile-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.danger-btn{color:#ff718d;border-color:rgba(255,85,119,.25)}.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.profile-settings-card{display:block;margin-top:12px;padding:22px}.profile-settings-card h3{margin:0 0 8px;font-size:15px}.profile-field{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid var(--border);font-size:11px}.profile-field:last-child{border-bottom:0}.profile-field span{color:var(--muted)}.profile-field b{max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:600px){.profile-main-card{flex-direction:column;text-align:center}.profile-actions{justify-content:center}.profile-stats{grid-template-columns:1fr}.profile-field{flex-direction:column;gap:5px}.profile-field b{max-width:100%}}
+
+
+
+/* =========================
+
+PROFILE
+
+========================= */
+
+
+
+.profile{
+
+max-width:700px;
+
+}
+
+
+
+.profile-box{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+padding:22px;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:14px;
+
+}
+
+
+
+.big-avatar{
+
+width:75px;
+
+height:75px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:16px;
+
+background:linear-gradient(135deg,var(--accent),#252b3b);
+
+font-size:30px;
+
+}
+
+
+
+/* =========================
+
+MUSIC
+
+========================= */
+
+
+
+.music-page{
+
+max-width:1050px;
+
+}
+
+
+
+.music-top{
+
+display:grid;
+
+grid-template-columns:1fr 280px;
+
+gap:15px;
+
+margin-top:25px;
+
+}
+
+
+
+.music-card{
+
+position:relative;
+
+overflow:hidden;
+
+padding:30px;
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+background:
+
+radial-gradient(
+
+circle at 85% 20%,
+
+rgba(124,92,255,.25),
+
+transparent 35%
+
+),
+
+#0d1017;
+
+box-shadow:0 25px 70px rgba(0,0,0,.35);
+
+}
+
+
+
+.music-card::before{
+
+content:"";
+
+position:absolute;
+
+width:220px;
+
+height:220px;
+
+right:-80px;
+
+bottom:-100px;
+
+border-radius:50%;
+
+background:rgba(124,92,255,.18);
+
+filter:blur(30px);
+
+}
+
+
+
+.music-main{
+
+position:relative;
+
+display:flex;
+
+align-items:center;
+
+gap:22px;
+
+}
+
+
+
+.album-large{
+
+width:140px;
+
+height:140px;
+
+flex-shrink:0;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:20px;
+
+font-size:52px;
+
+background:linear-gradient(135deg,var(--accent),#161b2a);
+
+box-shadow:0 20px 45px rgba(124,92,255,.2);
+
+transition:.3s;
+
+}
+
+
+
+.album-large.playing{
+
+animation:albumPulse 2s ease-in-out infinite;
+
+}
+
+
+
+@keyframes albumPulse{
+
+0%,100%{
+
+transform:scale(1);
+
+box-shadow:0 20px 45px rgba(124,92,255,.2);
+
+}
+
+
+
+
+
+50%{
+
+    transform:scale(1.04);
+
+    box-shadow:0 25px 60px rgba(124,92,255,.35);
+
+}
+
+
+
+
+
+}
+
+
+
+.music-info{
+
+min-width:0;
+
+}
+
+
+
+.music-info h3{
+
+margin:0;
+
+font-size:24px;
+
+}
+
+
+
+.music-info p{
+
+margin:7px 0 0;
+
+color:var(--muted);
+
+font-size:11px;
+
+}
+
+
+
+.music-controls{
+
+position:relative;
+
+margin-top:25px;
+
+}
+
+
+
+.music-buttons{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:10px;
+
+}
+
+
+
+.music-btn{
+
+width:42px;
+
+height:42px;
+
+border:1px solid var(--border);
+
+border-radius:10px;
+
+color:white;
+
+background:#151922;
+
+transition:.2s;
+
+}
+
+
+
+.music-btn:hover{
+
+border-color:var(--accent);
+
+transform:translateY(-2px);
+
+}
+
+
+
+.music-play{
+
+width:54px;
+
+height:54px;
+
+border:0;
+
+border-radius:50%;
+
+color:white;
+
+background:var(--accent);
+
+font-size:18px;
+
+box-shadow:0 10px 30px rgba(124,92,255,.3);
+
+}
+
+
+
+.music-progress{
+
+width:100%;
+
+margin-top:22px;
+
+}
+
+
+
+.music-volume{
+
+width:130px;
+
+margin-top:15px;
+
+}
+
+
+
+.music-time{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:5px;
+
+color:var(--muted);
+
+font-size:9px;
+
+}
+
+
+
+.playlists{
+
+padding:18px;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:15px;
+
+}
+
+
+
+.playlists-title{
+
+font-size:13px;
+
+font-weight:900;
+
+margin-bottom:12px;
+
+}
+
+
+
+.playlist{
+
+width:100%;
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:11px;
+
+margin-bottom:6px;
+
+color:var(--muted);
+
+background:transparent;
+
+border:1px solid transparent;
+
+border-radius:9px;
+
+text-align:left;
+
+transition:.2s;
+
+}
+
+
+
+.playlist:hover{
+
+color:white;
+
+background:#171a22;
+
+}
+
+
+
+.playlist.active{
+
+color:white;
+
+background:rgba(124,92,255,.13);
+
+border-color:rgba(124,92,255,.35);
+
+}
+
+
+
+.playlist-icon{
+
+width:32px;
+
+height:32px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#181c25;
+
+border-radius:8px;
+
+}
+
+
+
+.playlist-info{
+
+min-width:0;
+
+}
+
+
+
+.playlist-info b{
+
+display:block;
+
+font-size:10px;
+
+}
+
+
+
+.playlist-info span{
+
+display:block;
+
+margin-top:3px;
+
+font-size:8px;
+
+color:var(--muted);
+
+}
+
+
+
+.music-search-box{
+
+display:flex;
+
+gap:8px;
+
+margin-top:15px;
+
+}
+
+
+
+.music-search{
+
+flex:1;
+
+height:42px;
+
+padding:0 13px;
+
+color:white;
+
+background:#10131a;
+
+border:1px solid var(--border);
+
+border-radius:9px;
+
+outline:none;
+
+}
+
+
+
+.music-search:focus{
+
+border-color:var(--accent);
+
+}
+
+
+
+.track-list{
+
+margin-top:15px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:7px;
+
+}
+
+
+
+.track{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:10px;
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:10px;
+
+transition:.2s;
+
+}
+
+
+
+.track:hover{
+
+border-color:rgba(124,92,255,.45);
+
+transform:translateX(2px);
+
+}
+
+
+
+.track.active{
+
+background:rgba(124,92,255,.1);
+
+border-color:rgba(124,92,255,.5);
+
+}
+
+
+
+.track-cover{
+
+width:45px;
+
+height:45px;
+
+flex-shrink:0;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:linear-gradient(135deg,var(--accent),#171c2b);
+
+border-radius:8px;
+
+font-size:19px;
+
+}
+
+
+
+.track-info{
+
+min-width:0;
+
+flex:1;
+
+}
+
+
+
+.track-info b{
+
+display:block;
+
+font-size:11px;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+
+
+.track-info span{
+
+display:block;
+
+margin-top:4px;
+
+color:var(--muted);
+
+font-size:9px;
+
+}
+
+
+
+.track-play{
+
+width:35px;
+
+height:35px;
+
+border:1px solid var(--border);
+
+border-radius:8px;
+
+background:#151922;
+
+color:white;
+
+}
+
+
+
+.empty-music{
+
+padding:35px;
+
+text-align:center;
+
+color:var(--muted);
+
+background:var(--card);
+
+border:1px dashed var(--border);
+
+border-radius:12px;
+
+}
+
+
+
+/* =========================
+
+MODAL
+
+========================= */
+
+
+
+.modal{
+
+position:fixed;
+
+inset:0;
+
+z-index:5000;
+
+display:none;
+
+align-items:center;
+
+justify-content:center;
+
+padding:20px;
+
+background:rgba(0,0,0,.8);
+
+backdrop-filter:blur(8px);
+
+}
+
+
+
+.modal.show{
+
+display:flex;
+
+animation:modalFade .25s ease;
+
+}
+
+
+
+@keyframes modalFade{
+
+from{opacity:0}
+
+to{opacity:1}
+
+}
+
+
+
+.modal-box{
+
+width:min(850px,100%);
+
+max-height:90vh;
+
+overflow:auto;
+
+background:#0b0e14;
+
+border:1px solid var(--border);
+
+border-radius:17px;
+
+animation:modalOpen .35s cubic-bezier(.22,1,.36,1);
+
+}
+
+
+
+@keyframes modalOpen{
+
+from{
+
+opacity:0;
+
+transform:scale(.92) translateY(20px);
+
+}
+
+
+
+
+
+to{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+
+
+
+
+}
+
+
+
+.modal-cover{
+
+height:270px;
+
+position:relative;
+
+background:#151b27;
+
+}
+
+
+
+.modal-cover img{
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+}
+
+
+
+.close{
+
+position:absolute;
+
+right:12px;
+
+top:12px;
+
+z-index:10;
+
+width:37px;
+
+height:37px;
+
+color:white;
+
+background:rgba(5,7,10,.9);
+
+border:0;
+
+border-radius:8px;
+
+font-size:20px;
+
+}
+
+
+
+.modal-content{
+
+padding:24px;
+
+}
+
+
+
+.modal-content h2{
+
+font-size:28px;
+
+}
+
+
+
+.modal-text{
+
+color:var(--muted);
+
+line-height:1.7;
+
+font-size:12px;
+
+}
+
+
+
+.details{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:8px;
+
+margin:18px 0;
+
+}
+
+
+
+.detail{
+
+padding:12px;
+
+background:#121620;
+
+border-radius:8px;
+
+}
+
+
+
+.detail small{
+
+display:block;
+
+color:var(--muted);
+
+margin-bottom:5px;
+
+font-size:9px;
+
+}
+
+
+
+/* =========================
+
+FOOTER
+
+========================= */
+
+
+
+footer{
+
+padding:30px 35px;
+
+color:var(--muted);
+
+border-top:1px solid var(--border);
+
+font-size:10px;
+
+}
+
+
+
+.no-animations *,
+
+.no-animations *::before,
+
+.no-animations *::after{
+
+animation:none!important;
+
+transition:none!important;
+
+}
+
+
+
+/* EXTRA VISUALS */
+
+body.theme-aurora{--accent:#4fffc0;--accent2:#8b7cff} body.theme-midnight{--accent:#526dff;--accent2:#8fb5ff} body.theme-sakura{--accent:#ff72b6;--accent2:#ffb4d8} body.theme-space{--accent:#7067ff;--accent2:#43d9ff} body.theme-matrix{--accent:#19e879;--accent2:#7dffad} body.theme-crimson{--accent:#e3264f;--accent2:#ff6a82} body.theme-sky{--accent:#55bfff;--accent2:#b8e8ff} body.theme-coffee{--accent:#a96d45;--accent2:#e1b18b} body.theme-hologram{--accent:#a76cff;--accent2:#46efff} body.theme-toxic{--accent:#b5ff00;--accent2:#54ff65} body.theme-diamond{--accent:#55eaff;--accent2:#baf8ff} body.theme-volcano{--accent:#ff5a26;--accent2:#ffb13b} body.theme-rain{--accent:#628dff;--accent2:#8edcff} body.theme-pixel{--accent:#9b5cff;--accent2:#ff4fe1}
+
+body.anim-bounce .card{animation:hmBounce .55s ease both}@keyframes hmBounce{0%{transform:scale(.94);opacity:0}70%{transform:scale(1.025)}100%{transform:scale(1);opacity:1}}
+
+body.anim-zoom .card{animation:hmZoom .45s ease both}@keyframes hmZoom{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+
+body.anim-slide .card{animation:hmSlide .5s ease both}@keyframes hmSlide{from{transform:translateX(-22px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+body.anim-float .card{animation:hmFloat 3s ease-in-out infinite}@keyframes hmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+body.anim-neon .card:hover{box-shadow:0 0 25px var(--accent),0 0 55px rgba(124,92,255,.25)} body.anim-glitch .card:hover{animation:hmGlitch .18s linear infinite}@keyframes hmGlitch{0%{transform:translate(0)}33%{transform:translate(2px,-1px)}66%{transform:translate(-2px,1px)}100%{transform:translate(0)}}
+
+body.hover-glow .card:hover{box-shadow:0 0 30px rgba(124,92,255,.3)} body.hover-scale .card:hover{transform:scale(1.025)} body.hover-tilt .card:hover{transform:perspective(600px) rotateX(2deg) rotateY(-2deg)} body.hover-none .card:hover{transform:none;box-shadow:none}
+
+body.page-blur .page.active{animation:hmBlur .5s ease both}@keyframes hmBlur{from{filter:blur(10px);opacity:0}to{filter:blur(0);opacity:1}} body.page-zoom .page.active{animation:hmZoom .5s ease both} body.page-slide .page.active{animation:hmSlide .5s ease both}
+
+body.hm-floating .logo,body.hm-floating .nav-icon{animation:hmFloat 3s ease-in-out infinite}
+
+.cursor-ring *,.cursor-diamond *,.cursor-star *,.cursor-spark *,.cursor-target *,.cursor-pixel *,.cursor-arrow *,.cursor-comet *,.cursor-rainbow *,.cursor-neon *{cursor:none!important}
+
+.cursor-ring::after{content:"";position:fixed;width:17px;height:17px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-50%);box-shadow:0 0 14px var(--accent)}
+
+.cursor-diamond::after{content:"";position:fixed;width:13px;height:13px;background:var(--accent);pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 16px var(--accent)}
+
+.cursor-star::after{content:"★";position:fixed;color:var(--accent);font-size:20px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-55%);text-shadow:0 0 14px var(--accent)}
+
+.cursor-spark::after{content:"✦";position:fixed;color:var(--accent2);font-size:23px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-55%);text-shadow:0 0 16px var(--accent2)}
+
+.cursor-target::after{content:"⌾";position:fixed;color:var(--accent);font-size:25px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-55%);text-shadow:0 0 12px var(--accent)}
+
+.cursor-pixel::after{content:"";position:fixed;width:9px;height:9px;background:var(--accent);pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);box-shadow:0 0 10px var(--accent)}
+
+.cursor-arrow::after{content:"➤";position:fixed;color:var(--accent);font-size:19px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-45%,-55%);text-shadow:0 0 12px var(--accent)}
+
+.cursor-comet::after{content:"☄";position:fixed;color:var(--accent2);font-size:23px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-55%);text-shadow:0 0 15px var(--accent2)}
+
+.cursor-rainbow::after{content:"✦";position:fixed;color:#7cf7ff;font-size:22px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-55%);text-shadow:0 0 6px #ff4f81,0 0 14px #49e87d,0 0 22px #a75cff}
+
+.cursor-neon::after{content:"✧";position:fixed;color:var(--accent);font-size:24px;pointer-events:none;z-index:99999;left:var(--mouse-x);top:var(--mouse-y);transform:translate(-50%,-55%);text-shadow:0 0 5px var(--accent),0 0 15px var(--accent),0 0 28px var(--accent2)}
+
+/* =========================
+
+CURSOR
+
+========================= */
+
+
+
+.cursor-dot *{
+
+cursor:none!important;
+
+}
+
+
+
+.cursor-cross *{
+
+cursor:none!important;
+
+}
+
+
+
+.cursor-dot::after{
+
+content:"";
+
+position:fixed;
+
+width:8px;
+
+height:8px;
+
+background:var(--accent);
+
+border-radius:50%;
+
+pointer-events:none;
+
+z-index:99999;
+
+transform:translate(-50%,-50%);
+
+left:var(--mouse-x);
+
+top:var(--mouse-y);
+
+box-shadow:0 0 15px var(--accent);
+
+}
+
+
+
+.cursor-cross::after{
+
+content:"";
+
+position:fixed;
+
+width:12px;
+
+height:12px;
+
+border:2px solid var(--accent);
+
+pointer-events:none;
+
+z-index:99999;
+
+transform:translate(-50%,-50%);
+
+left:var(--mouse-x);
+
+top:var(--mouse-y);
+
+}
+
+
+
+
+
+/* =========================
+
+EXTRA THEMES
+
+========================= */
+
+
+
+body.theme-ocean{
+
+  --accent:#20c7ff; --accent2:#8eeaff; --season-bg:#041017; --season-glow:rgba(32,199,255,.22);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-emerald{
+
+  --accent:#19e68c; --accent2:#8affc9; --season-bg:#03110b; --season-glow:rgba(25,230,140,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-red{
+
+  --accent:#ff3b55; --accent2:#ff8b99; --season-bg:#120407; --season-glow:rgba(255,59,85,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-pink{
+
+  --accent:#ff4fd8; --accent2:#ff9ae9; --season-bg:#120510; --season-glow:rgba(255,79,216,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-neon{
+
+  --accent:#39ff14; --accent2:#b4ff9f; --season-bg:#020802; --season-glow:rgba(57,255,20,.22);
+
+  background:radial-gradient(circle at 50% 20%,var(--season-glow),transparent 35%),var(--season-bg);
+
+}
+
+body.theme-cyber{
+
+  --accent:#00f0ff; --accent2:#ff4df8; --season-bg:#06030c; --season-glow:rgba(0,240,255,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-purple{
+
+  --accent:#8a5cff; --accent2:#c5a8ff; --season-bg:#080410; --season-glow:rgba(138,92,255,.23);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-gold{
+
+  --accent:#ffc233; --accent2:#ffe39a; --season-bg:#0d0902; --season-glow:rgba(255,194,51,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-lava{
+
+  --accent:#ff4b16; --accent2:#ff9b55; --season-bg:#100502; --season-glow:rgba(255,75,22,.23);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-ice{
+
+  --accent:#65d9ff; --accent2:#d2f6ff; --season-bg:#031019; --season-glow:rgba(101,217,255,.22);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-forest{
+
+  --accent:#57c96b; --accent2:#b7f2a4; --season-bg:#061006; --season-glow:rgba(87,201,107,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-sunset{
+
+  --accent:#ff5f6d; --accent2:#ffc371; --season-bg:#100607; --season-glow:rgba(255,95,109,.22);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-monochrome{
+
+  --accent:#ffffff; --accent2:#d7d7d7; --season-bg:#080808; --season-glow:rgba(255,255,255,.12);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-void{
+
+  --accent:#6f00ff; --accent2:#d06cff; --season-bg:#020005; --season-glow:rgba(111,0,255,.25);
+
+  background:radial-gradient(circle at 50% 20%,var(--season-glow),transparent 36%),var(--season-bg);
+
+}
+
+body.theme-mint{
+
+  --accent:#31e6c1; --accent2:#a4ffe9; --season-bg:#03100e; --season-glow:rgba(49,230,193,.20);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+body.theme-royal{
+
+  --accent:#4169e1; --accent2:#9bb2ff; --season-bg:#050814; --season-glow:rgba(65,105,225,.22);
+
+  background:radial-gradient(circle at 80% 15%,var(--season-glow),transparent 32%),var(--season-bg);
+
+}
+
+
+
+body[class*="theme-"] .card,
+
+body[class*="theme-"] .stat,
+
+body[class*="theme-"] .music-card,
+
+body[class*="theme-"] .playlists{
+
+  box-shadow:0 0 40px var(--season-glow),inset 0 0 30px rgba(255,255,255,.015);
+
+}
+
+
+
+/* =========================
+
+YOUTUBE
+
+========================= */
+
+
+
+.youtube-top-btn{
+
+  height:38px;
+
+  padding:0 13px;
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  border:1px solid rgba(255,70,70,.35);
+
+  border-radius:9px;
+
+  color:#fff;
+
+  background:linear-gradient(135deg,#ff3030,#c90000);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  transition:.25s;
+
+  box-shadow:0 8px 25px rgba(255,0,0,.12);
+
+}
+
+
+
+.youtube-top-btn:hover{
+
+  transform:translateY(-2px);
+
+  border-color:rgba(255,100,100,.65);
+
+  box-shadow:0 12px 30px rgba(255,0,0,.22);
+
+}
+
+
+
+.youtube-icon{
+
+  width:19px;
+
+  height:14px;
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:4px;
+
+  background:#fff;
+
+  color:#e00000;
+
+  font-size:9px;
+
+  line-height:1;
+
+}
+
+
+
+.youtube-profile-card{
+
+  margin-top:12px;
+
+  padding:22px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:18px;
+
+  border:1px solid rgba(255,70,70,.28);
+
+  border-radius:15px;
+
+  background:
+
+    radial-gradient(circle at 90% 20%,rgba(255,40,40,.13),transparent 35%),
+
+    var(--card);
+
+  overflow:hidden;
+
+}
+
+
+
+.youtube-profile-avatar{
+
+  width:82px;
+
+  height:82px;
+
+  flex:0 0 82px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:20px;
+
+  background:linear-gradient(135deg,#ff3030,#8d0000);
+
+  box-shadow:0 15px 35px rgba(255,0,0,.18);
+
+  color:#fff;
+
+  font-size:31px;
+
+  font-weight:900;
+
+}
+
+
+
+.youtube-profile-info{
+
+  min-width:0;
+
+  flex:1;
+
+}
+
+
+
+.youtube-profile-title{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+}
+
+
+
+.youtube-profile-title h3{
+
+  margin:0;
+
+  font-size:20px;
+
+}
+
+
+
+.youtube-verified{
+
+  width:18px;
+
+  height:18px;
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:#38a8ff;
+
+  color:#fff;
+
+  font-size:11px;
+
+}
+
+
+
+.youtube-handle{
+
+  margin:5px 0 0;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+}
+
+
+
+.youtube-description{
+
+  margin:8px 0 0;
+
+  color:#b8bfcc;
+
+  font-size:11px;
+
+  line-height:1.5;
+
+}
+
+
+
+.youtube-profile-actions{
+
+  display:flex;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+  margin-top:12px;
+
+}
+
+
+
+.youtube-open-btn{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:7px;
+
+  min-height:38px;
+
+  padding:0 14px;
+
+  border-radius:9px;
+
+  color:#fff;
+
+  background:#ff3030;
+
+  border:1px solid #ff3030;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  transition:.2s;
+
+}
+
+
+
+.youtube-open-btn:hover{
+
+  transform:translateY(-2px);
+
+  background:#e51f1f;
+
+  box-shadow:0 10px 25px rgba(255,0,0,.18);
+
+}
+
+
+
+.youtube-copy-btn{
+
+  min-height:38px;
+
+  padding:0 14px;
+
+  border-radius:9px;
+
+  color:#fff;
+
+  background:#151922;
+
+  border:1px solid var(--border);
+
+  font-size:10px;
+
+  font-weight:900;
+
+}
+
+
+
+.youtube-copy-btn:hover{
+
+  border-color:rgba(255,70,70,.5);
+
+}
+
+
+
+@media(max-width:600px){
+
+  .youtube-top-text{display:none}
+
+  .youtube-top-btn{width:38px;padding:0}
+
+  .youtube-profile-card{flex-direction:column;text-align:center}
+
+  .youtube-profile-actions{justify-content:center}
+
+}
+
+
+
+
+
+.youtube-profile-card.youtube-highlight{
+
+  animation:youtubeProfileGlow 1.6s ease-in-out;
+
+}
+
+
+
+@keyframes youtubeProfileGlow{
+
+  0%{
+
+    transform:scale(1);
+
+    box-shadow:0 0 0 rgba(56,168,255,0);
+
+    border-color:rgba(255,70,70,.28);
+
+  }
+
+  35%{
+
+    transform:scale(1.015);
+
+    box-shadow:0 0 35px rgba(56,168,255,.38);
+
+    border-color:rgba(56,168,255,.85);
+
+  }
+
+  100%{
+
+    transform:scale(1);
+
+    box-shadow:0 0 0 rgba(56,168,255,0);
+
+    border-color:rgba(255,70,70,.28);
+
+  }
+
+}
+
+
+
+
+
+body.hm-compact .setting{
+
+  padding:11px 0;
+
+}
+
+body.hm-compact .settings-group{
+
+  padding-left:13px;
+
+  padding-right:13px;
+
+}
+
+body.hm-wide .settings,
+
+body.hm-wide .profile-modern,
+
+body.hm-wide .premium-box{
+
+  max-width:1180px;
+
+}
+
+body.hm-no-tips [title]{
+
+  pointer-events:none;
+
+}
+
+/* =========================
+
+RESPONSIVE
+
+========================= */
+
+
+
+@media(max-width:1000px){
+
+
+
+
+
+.music-top{
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+
+
+}
+
+
+
+@media(max-width:900px){
+
+
+
+
+
+.sidebar{
+
+    width:70px;
+
+    padding:15px 8px;
+
+}
+
+
+
+.logo{
+
+    text-align:center;
+
+    padding:8px 0 20px;
+
+    font-size:0;
+
+}
+
+
+
+.logo span{
+
+    font-size:20px;
+
+}
+
+
+
+.version,
+
+.menu-title,
+
+.nav button span,
+
+.profile-text,
+
+.telegram{
+
+    display:none;
+
+}
+
+
+
+.nav button{
+
+    justify-content:center;
+
+    padding:0;
+
+}
+
+
+
+.profile-mini{
+
+    justify-content:center;
+
+    padding:7px;
+
+}
+
+
+
+.content{
+
+    width:calc(100% - 70px);
+
+    margin-left:70px;
+
+}
+
+
+
+.grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+
+
+.stats{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+
+
+
+
+}
+
+
+
+@media(max-width:600px){
+
+
+
+
+
+.topbar{
+
+    padding:0 15px;
+
+}
+
+
+
+.page{
+
+    padding:20px 15px 50px;
+
+}
+
+
+
+.topbar .search{
+
+    display:none;
+
+}
+
+
+
+.grid{
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+.hero h1{
+
+    font-size:48px;
+
+    letter-spacing:-2px;
+
+}
+
+
+
+.details{
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+
+
+.music-main{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+
+
+.album-large{
+
+    width:110px;
+
+    height:110px;
+
+}
+
+
+
+.music-card{
+
+    padding:20px;
+
+}
+
+
+
+.music-search-box{
+
+    flex-direction:column;
+
+}
+
+
+
+.music-search-box .btn{
+
+    width:100%;
+
+}
+
+
+
+.setting{
+
+    align-items:flex-start;
+
+    flex-direction:column;
+
+}
+
+
+
+.settings-select{
+
+    width:100%;
+
+}
+
+
+
+
+
+}
+
+
+/* HypeMine Music — аккуратная кнопка загрузки, остальной сайт не изменён */
+.music-upload-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:14px 0;
+  flex-wrap:wrap;
+}
+.music-upload-row .music-btn{
+  min-width:170px;
+  height:44px;
+  padding:0 18px;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.1px;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.music-upload-row .music-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 24px rgba(124,92,255,.22);
+}
+.music-upload-row .music-btn:active{
+  transform:translateY(0);
+}
+
+/* HypeMine Builds upload */
+.build-upload-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#0b0e14;border:1px solid var(--border);border-radius:17px;padding:24px;box-shadow:0 30px 100px rgba(0,0,0,.5)}
+.build-upload-title{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}
+.build-upload-title h2{font-size:24px}
+.build-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.build-form-group{margin-top:12px}.build-form-group.full{grid-column:1/-1}
+.build-form-label{display:block;margin-bottom:7px;color:#cbd2df;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.7px}
+.build-input,.build-textarea,.build-select{width:100%;color:white;background:#11151d;border:1px solid var(--border);border-radius:9px;outline:none;padding:11px 12px}
+.build-input:focus,.build-textarea:focus,.build-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,255,.08)}
+.build-textarea{min-height:130px;resize:vertical;line-height:1.55}.build-file{width:100%;padding:13px;color:var(--muted);background:#11151d;border:1px dashed #343b4b;border-radius:10px}
+.build-photo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:9px}
+.build-photo-preview{aspect-ratio:1;overflow:hidden;border-radius:9px;border:1px solid var(--border);background:#151922;display:flex;align-items:center;justify-content:center;color:#5f687a;font-size:10px}
+.build-photo-preview img{width:100%;height:100%;object-fit:cover}
+.build-price-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.build-price-input{display:none}
+.build-upload-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:20px}
+.build-price-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:6px;font-size:8px;font-weight:900;background:rgba(72,214,139,.1);color:var(--success);border:1px solid rgba(72,214,139,.22)}
+.build-price-badge.plus{background:rgba(124,92,255,.12);color:var(--accent2);border-color:rgba(124,92,255,.28)}
+.build-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}.build-gallery img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
+@media(max-width:650px){.build-form-grid{grid-template-columns:1fr}.build-form-group.full{grid-column:auto}.build-photo-grid,.build-gallery{grid-template-columns:repeat(3,1fr)}.build-price-row{grid-template-columns:1fr}}
+
+
+/* Fix public Add Build modal */
+#addBuildModal{display:none;align-items:center;justify-content:center;}
+#addBuildModal.active{display:flex;}
+
+/* ===== HypeMine Builds 2.0 additions ===== */
+.build-price-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.build-photo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:8px}.build-upload-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.build-tags-picker{display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:#11151d;border:1px solid var(--border);border-radius:10px;max-height:180px;overflow:auto}.build-tag-option{display:flex;align-items:center;gap:5px;padding:6px 8px;border:1px solid var(--border);border-radius:7px;background:#171b24;color:#cbd2df;font-size:9px;font-weight:800}.build-tag-option input{accent-color:var(--accent)}.build-custom-type{display:none;margin-top:8px}.build-custom-type.show{display:block}.build-author{display:flex;align-items:center;gap:7px;min-width:0;cursor:pointer;margin-top:10px}.build-author-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 28px;background:linear-gradient(135deg,var(--accent),#252b3b);font-size:14px;border:1px solid rgba(255,255,255,.12)}.build-author-avatar img{width:100%;height:100%;object-fit:cover}.build-author-name{font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.build-date{color:var(--muted);font-size:8px;margin-top:4px}.build-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.build-card-actions button{height:34px}.build-edit-btn{color:#ffd166!important;background:rgba(255,209,102,.08)!important}.build-delete-btn{color:#ff718d!important;background:rgba(255,85,119,.08)!important}.build-like-btn{position:absolute;right:48px;top:9px;width:31px;height:31px;color:white;background:rgba(5,7,10,.9);border:0;border-radius:7px}.build-like-btn.active{color:#ff5577}.build-stats-line{display:flex;gap:10px;flex-wrap:wrap;margin-top:7px;color:var(--muted);font-size:8px}.build-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;padding:10px 24px;background:#0b0e14;border-top:1px solid var(--border)}.build-gallery img{width:100%;height:70px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer}.author-profile-modal{width:min(760px,100%);max-height:90vh;overflow:auto;background:#0b0e14;border:1px solid var(--border);border-radius:17px;padding:22px}.author-profile-head{display:flex;align-items:center;gap:15px}.author-profile-avatar{width:78px;height:78px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),#252b3b);font-size:30px;flex:0 0 78px}.author-profile-avatar img{width:100%;height:100%;object-fit:cover}.author-profile-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}.author-stat{padding:12px;background:#121620;border-radius:9px;text-align:center}.author-stat b{display:block;font-size:17px}.author-stat span{display:block;margin-top:4px;color:var(--muted);font-size:8px}.account-link-box{margin-top:15px;padding:16px;background:#10131a;border:1px solid var(--border);border-radius:12px}.account-link-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}.account-link-row:last-child{border-bottom:0}@media(max-width:700px){.build-photo-grid{grid-template-columns:repeat(2,1fr)}.author-profile-stats{grid-template-columns:repeat(2,1fr)}.build-price-row{grid-template-columns:1fr}.build-gallery{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<canvas id="galaxyCanvas"></canvas>
+
+<div id="seasonParticles" class="season-particles"></div>
+
+
+
+<div class="app">
+
+
+
+<!-- ================= SIDEBAR ================= -->
+
+
+
+<aside class="sidebar" data-layout-id="sidebar">
+
+
+
+<div class="logo">
+
+<span>HypeMine</span> Builds
+
+<small class="version">v0.0.0.2</small>
+
+</div>
+
+
+
+<div class="menu-title">Навигация</div>
+
+
+
+<nav class="nav">
+
+
+
+<button class="active" onclick="openPage('home',this)">
+
+<div class="nav-icon">🏠</div>
+
+<span>Главная</span>
+
+</button>
+
+
+
+<button onclick="openPage('catalog',this)">
+
+<div class="nav-icon">📦</div>
+
+<span>Каталог</span>
+
+</button>
+
+
+
+<button onclick="openPage('maps',this)">
+
+<div class="nav-icon">🗺️</div>
+
+<span>Карты</span>
+
+</button>
+
+
+
+<button onclick="openPage('mods',this)">
+
+<div class="nav-icon">🔧</div>
+
+<span>Моды</span>
+
+</button>
+
+
+
+<button onclick="openPage('shaders',this)">
+
+<div class="nav-icon">✨</div>
+
+<span>Шейдеры</span>
+
+</button>
+
+
+
+<button onclick="openPage('plugins',this)">
+
+<div class="nav-icon">🔌</div>
+
+<span>Плагины</span>
+
+</button>
+
+
+
+<button onclick="openPage('favorites',this)">
+
+<div class="nav-icon">❤️</div>
+
+<span>Избранное</span>
+
+</button>
+
+
+
+<button class="music-nav" onclick="openPage('music',this)">
+
+<div class="nav-icon">🎵</div>
+
+<span>HypeMine Music</span>
+
+</button>
+
+
+
+</nav>
+
+
+
+<div class="menu-title">Аккаунт</div>
+
+
+
+<nav class="nav">
+
+
+
+<button onclick="openPage('profile',this)">
+
+<div class="nav-icon">👤</div>
+
+<span>Профиль</span>
+
+</button>
+
+
+
+<button onclick="openPage('settings',this)">
+
+<div class="nav-icon">⚙️</div>
+
+<span>Настройки</span>
+
+</button>
+</nav>
+
+
+
+<div class="sidebar-bottom">
+
+
+
+<div class="profile-mini">
+
+
+
+<div class="avatar" id="miniAvatar">👤</div>
+
+
+
+<div class="profile-text">
+
+<b id="miniName">Гость</b>
+
+<span>HypeMine User</span>
+
+</div>
+
+
+
+</div>
+
+
+
+<a
+
+class="telegram"
+
+href="https://t.me/minoirr"
+
+target="_blank"
+
+>
+
+✈ Telegram
+
+</a>
+
+
+
+</div>
+
+
+
+</aside>
+
+
+
+<!-- ================= CONTENT ================= -->
+
+
+
+<div class="content">
+
+
+
+<div class="topbar" data-layout-id="topbar">
+
+
+
+<div id="pageTitle" class="page-title">
+
+Главная
+
+</div>
+
+
+
+<div class="topbar-right">
+
+
+
+<input
+
+id="globalSearch"
+
+class="search"
+
+placeholder="🔎 Поиск сборок..."
+
+>
+
+
+
+<a
+
+class="youtube-top-btn"
+
+href="#"
+
+onclick="openYoutubeProfileFromSearch();return false;"
+
+title="Профиль ZETIMODS на сайте"
+
+>
+
+<span class="youtube-icon">▶</span>
+
+<span class="youtube-top-text">ZETIMODS</span>
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- ================= HOME ================= -->
+
+
+
+<section id="page-home" class="page layout-page active">
+
+
+
+<div class="hero">
+
+
+
+<div>
+
+
+
+<div class="hero-badge">
+
+<span class="status-dot"></span>
+
+HypeMine Builds
+
+</div>
+
+
+
+<h1>
+
+Сборки для
+
+<br>
+
+<span class="gradient">Minecraft</span>
+
+</h1>
+
+
+
+<p>
+
+Большой каталог сборок, карт, модов,
+
+шейдеров и плагинов. Всё в одном месте.
+
+</p>
+
+
+
+<div class="buttons">
+
+
+
+<button
+
+class="btn btn-primary"
+
+onclick="openPageByName('catalog')"
+
+>
+
+Открыть каталог →
+
+</button>
+
+
+
+
+
+
+
+
+
+
+
+<a
+
+href="https://t.me/minoirr"
+
+target="_blank"
+
+class="btn"
+
+>
+
+✈ @minoirr
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="stats">
+
+
+
+<div class="stat">
+
+<b id="statBuilds">0</b>
+
+<span>Материалов</span>
+
+</div>
+
+
+
+<div class="stat">
+
+<b>6</b>
+
+<span>Категорий</span>
+
+</div>
+
+
+
+<div class="stat">
+
+<b>4.9 ★</b>
+
+<span>Средний рейтинг</span>
+
+</div>
+
+
+
+<div class="stat">
+
+<b>0.0.0.2</b>
+
+<span>Версия</span>
+
+</div>
+
+
+
+</div>
+
+
+
+<h2 style="margin-top:45px">
+
+🔥 Популярное
+
+</h2>
+
+
+
+<p class="subtitle">
+
+Лучшие материалы проекта
+
+</p>
+
+
+
+<div
+
+id="homeGrid"
+
+class="grid"
+
+style="margin-top:18px"
+
+></div>
+
+
+
+</section>
+
+
+
+<!-- ================= CATALOG ================= -->
+
+<section id="page-catalog" class="page layout-page" data-layout-id="page-catalog">
+  <div class="section-head">
+    <div>
+      <h2>📦 Каталог сборок</h2>
+      <p class="subtitle">Только сборки Velocity и Lobby</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+      <input id="catalogSearch" class="search" placeholder="🔎 Найти сборку...">
+      <button id="addBuildButton" class="btn btn-primary" onclick="openAddBuildModal()">＋ Добавить сборку</button>
+    </div>
+  </div>
+  <div id="filters" class="filters"></div>
+  <div id="catalogGrid" class="grid"></div>
+</section>
+
+<!-- ================= MAPS ================= -->
+
+
+
+<section id="page-maps" class="page layout-page" data-layout-id="page-maps">
+
+
+
+<h2>🗺️ Карты</h2>
+
+
+
+<p class="subtitle">
+
+Карты и миры Minecraft
+
+</p>
+
+
+
+<div
+
+id="mapsGrid"
+
+class="grid"
+
+style="margin-top:20px"
+
+></div>
+
+
+
+</section>
+
+
+
+<!-- ================= MODS ================= -->
+
+
+
+<section id="page-mods" class="page layout-page" data-layout-id="page-mods">
+
+
+
+<h2>🔧 Моды</h2>
+
+
+
+<p class="subtitle">
+
+Моды для Minecraft
+
+</p>
+
+
+
+<div
+
+id="modsGrid"
+
+class="grid"
+
+style="margin-top:20px"
+
+></div>
+
+
+
+</section>
+
+
+
+<!-- ================= SHADERS ================= -->
+
+
+
+<section id="page-shaders" class="page layout-page" data-layout-id="page-shaders">
+
+
+
+<h2>✨ Шейдеры</h2>
+
+
+
+<p class="subtitle">
+
+Графика, освещение и эффекты
+
+</p>
+
+
+
+<div
+
+id="shadersGrid"
+
+class="grid"
+
+style="margin-top:20px"
+
+></div>
+
+
+
+</section>
+
+
+
+<!-- ================= PLUGINS ================= -->
+
+
+
+<section id="page-plugins" class="page layout-page" data-layout-id="page-plugins">
+
+
+
+<h2>🔌 Плагины</h2>
+
+
+
+<p class="subtitle">
+
+Плагины для серверов Minecraft
+
+</p>
+
+
+
+<div
+
+id="pluginsGrid"
+
+class="grid"
+
+style="margin-top:20px"
+
+></div>
+
+
+
+</section>
+
+
+
+<!-- ================= FAVORITES ================= -->
+
+
+
+<section id="page-favorites" class="page layout-page" data-layout-id="page-favorites">
+
+
+
+<h2>❤️ Избранное</h2>
+
+
+
+<p class="subtitle">
+
+Сохранённые материалы
+
+</p>
+
+
+
+<div
+
+id="favoriteGrid"
+
+class="grid"
+
+style="margin-top:20px"
+
+></div>
+
+
+
+</section>
+
+
+
+<!-- ================= MUSIC ================= -->
+
+
+
+<section id="page-music" class="page layout-page" data-layout-id="page-music">
+
+
+
+<div class="music-page">
+
+
+
+<h2>🎵 HypeMine Music</h2>
+
+
+
+<p class="subtitle">
+
+Плейлисты и музыка прямо на сайте
+
+</p>
+
+
+
+<div class="music-top">
+
+
+
+<div class="music-card">
+
+
+
+<div class="music-main">
+
+
+
+<div
+
+id="albumLarge"
+
+class="album-large"
+
+>
+
+🎵
+
+</div>
+
+
+
+<div class="music-info">
+
+
+
+<h3 id="musicTitle">
+
+HypeMine Music
+
+</h3>
+
+
+
+<p id="trackName">
+
+Выбери песню
+
+</p>
+
+
+
+<p
+
+id="playlistName"
+
+style="margin-top:12px"
+
+>
+
+🎧 HypeMine Music
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="music-controls">
+
+
+
+<div class="music-buttons">
+
+
+
+<button
+
+class="music-btn"
+
+onclick="previousTrack()"
+
+>
+
+⏮
+
+</button>
+
+
+
+<button
+
+class="music-btn"
+
+onclick="toggleShuffle()"
+
+id="shuffleButton"
+
+>
+
+🔀
+
+</button>
+
+
+
+<button
+
+id="playButton"
+
+class="music-play"
+
+onclick="toggleMusic()"
+
+>
+
+▶
+
+</button>
+
+
+
+<button
+
+class="music-btn"
+
+onclick="toggleRepeat()"
+
+id="repeatButton"
+
+>
+
+🔁
+
+</button>
+
+
+
+<button
+
+class="music-btn"
+
+onclick="nextTrack()"
+
+>
+
+⏭
+
+</button>
+
+
+
+</div>
+
+
+
+<input
+
+id="progress"
+
+class="music-progress"
+
+type="range"
+
+min="0"
+
+max="100"
+
+value="0"
+
+>
+
+
+
+<div class="music-time">
+
+
+
+<span id="currentTime">0:00</span>
+
+<span id="duration">0:00</span>
+
+
+
+</div>
+
+
+
+<div style="text-align:center">
+
+
+
+<span style="color:var(--muted);font-size:10px">
+
+🔊 Громкость
+
+</span>
+
+
+
+<br>
+
+
+
+<input
+
+id="volume"
+
+class="music-volume"
+
+type="range"
+
+min="0"
+
+max="1"
+
+step=".01"
+
+value=".5"
+
+>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="playlists">
+
+
+
+<div class="playlists-title">
+
+🎧 Плейлисты
+
+</div>
+
+
+
+<button
+
+class="playlist active"
+
+onclick="selectPlaylist('all',this)"
+
+>
+
+<div class="playlist-icon">🎵</div>
+
+<div class="playlist-info">
+
+<b>Все песни</b>
+
+<span>Вся музыка</span>
+
+</div>
+
+</button>
+
+
+
+<button
+
+class="playlist"
+
+onclick="selectPlaylist('popular',this)"
+
+>
+
+<div class="playlist-icon">🔥</div>
+
+<div class="playlist-info">
+
+<b>Популярное</b>
+
+<span>Известные треки</span>
+
+</div>
+
+</button>
+
+
+
+<button
+
+class="playlist"
+
+onclick="selectPlaylist('night',this)"
+
+>
+
+<div class="playlist-icon">🌙</div>
+
+<div class="playlist-info">
+
+<b>Night / Chill</b>
+
+<span>Спокойная музыка</span>
+
+</div>
+
+</button>
+
+
+
+<button
+
+class="playlist"
+
+onclick="selectPlaylist('energy',this)"
+
+>
+
+<div class="playlist-icon">⚡</div>
+
+<div class="playlist-info">
+
+<b>Energy</b>
+
+<span>Для игры</span>
+
+</div>
+
+</button>
+
+
+
+<button
+
+class="playlist"
+
+onclick="selectPlaylist('gaming',this)"
+
+>
+
+<div class="playlist-icon">🎮</div>
+
+<div class="playlist-info">
+
+<b>Gaming</b>
+
+<span>Игровая атмосфера</span>
+
+</div>
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="music-search-box">
+
+
+
+<input
+
+id="musicSearch"
+
+class="music-search"
+
+placeholder="🔎 Найти песню или исполнителя..."
+
+>
+
+
+
+<button
+
+class="btn btn-primary"
+
+onclick="clearMusicSearch()"
+
+>
+
+Сбросить
+
+</button>
+
+
+
+</div>
+
+
+
+<div class="music-upload-row">
+
+<button type="button" class="music-btn" onclick="document.getElementById('musicFileInput').click()">＋ Добавить музыку</button>
+
+<input id="musicFileInput" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a" multiple style="display:none!important">
+
+<span id="musicFileHint" style="display:none"></span>
+
+</div>
+
+<div id="trackList"
+
+class="track-list"
+
+></div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+<!-- ================= PROFILE ================= -->
+
+
+
+<section id="page-profile" class="page layout-page" data-layout-id="page-profile">
+
+
+
+<h2>👤 Профиль</h2>
+
+<p class="subtitle">Управление аккаунтом HypeMine Builds</p>
+
+
+
+<div class="profile profile-modern" style="margin-top:20px">
+
+
+
+<div class="profile-box profile-main-card">
+
+  <div class="profile-avatar-wrap">
+
+    <div class="big-avatar" id="profileAvatar">👤</div>
+
+    <button class="avatar-edit" onclick="changeAvatar()" title="Установить своё фото">✕</button>
+
+    <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarFile(event)">
+
+  </div>
+
+
+
+  <div class="profile-main-info">
+
+    <div class="profile-online"><span></span> Онлайн</div>
+
+    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><h2 id="profileName" style="font-size:24px;margin:0">Гость</h2><span id="profileVerifiedBadge" class="youtube-verified" style="display:none" title="Подтверждённый аккаунт">✓</span></div>
+
+    <p id="profileEmail" class="subtitle">Аккаунт не зарегистрирован</p>
+
+    <p id="profileSince" class="profile-since">Новый пользователь</p>
+
+    <div class="profile-actions">
+
+      <button class="btn btn-primary" onclick="registerOrLogin()" id="profileLoginBtn">Войти / Регистрация</button>
+
+      <button class="btn" onclick="editProfile()" id="profileEditBtn">✏️ Изменить профиль</button>
+
+      <button class="btn danger-btn" onclick="logoutProfile()" id="profileLogoutBtn" style="display:none">🚪 Выйти</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="profile-stats">
+
+  <div class="stat"><b id="profileDownloads">0</b><span>Скачиваний</span></div>
+
+  <div class="stat"><b id="profileFavorites">0</b><span>Избранных</span></div>
+
+  <div class="stat"><b id="profileMaterials">0</b><span>Просмотрено</span></div>
+
+</div>
+
+
+
+<div class="profile-box profile-settings-card">
+
+  <h3>⚙️ Данные аккаунта</h3>
+
+  <div class="profile-field"><span>👤 Никнейм</span><b id="profileNickField">Гость</b></div>
+
+  <div class="profile-field"><span>📧 Email</span><b id="profileEmailField">—</b></div>
+
+  <div class="profile-field"><span>🆔 ID аккаунта</span><b id="profileIdField">—</b></div>
+
+</div>
+
+
+
+<div class="youtube-profile-card" id="youtubeProfileCard">
+
+  <div class="youtube-profile-avatar">YT</div>
+
+
+
+  <div class="youtube-profile-info">
+
+    <div class="youtube-profile-title">
+
+      <h3>ZETIMODS</h3>
+
+      <span class="youtube-verified">✓</span>
+
+    </div>
+
+
+
+    <p class="youtube-handle">@zetimods · YouTube</p>
+
+
+
+    <p class="youtube-description">
+
+      Мой YouTube-канал ZETIMODS — Minecraft, визуалы, моды и другие проекты.
+
+    </p>
+
+
+
+    <div class="youtube-profile-actions">
+
+      <a
+
+        class="youtube-open-btn"
+
+        href="https://youtube.com/@zetimods"
+
+        target="_blank"
+
+        rel="noopener noreferrer"
+
+      >
+
+        ▶ Открыть канал
+
+      </a>
+
+
+
+      <button
+
+        class="youtube-copy-btn"
+
+        onclick="copyYoutubeChannel()"
+
+      >
+
+        🔗 Скопировать ссылку
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+<!-- ================= SETTINGS ================= -->
+
+
+
+<section id="page-settings" class="page layout-page" data-layout-id="page-settings">
+
+
+
+<h2>⚙️ Настройки</h2>
+
+
+
+<p class="subtitle">
+
+Полная настройка HypeMine Builds
+
+</p>
+
+
+
+<div
+
+class="settings"
+
+style="margin-top:20px"
+
+>
+
+
+
+<!-- THEME -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>🌌 Тема сайта</b>
+
+
+
+<span>
+
+Выбери атмосферу сайта
+
+</span>
+
+
+
+</div>
+
+
+
+<select
+
+id="themeSelect"
+
+class="settings-select"
+
+onchange="changeTheme(this.value)"
+
+>
+
+
+
+<option value="normal">
+
+🌑 Обычная
+
+</option>
+
+
+
+<option value="galaxy">
+
+🌌 Космическая / Галактика
+
+</option>
+
+
+
+<option value="summer">
+
+☀️ Летняя
+
+</option>
+
+
+
+<option value="spring">
+
+🌸 Весенняя
+
+</option>
+
+
+
+<option value="autumn">
+
+🍂 Осенняя
+
+</option>
+
+
+
+<option value="winter">
+
+❄️ Зимняя
+
+</option>
+
+
+
+<option value="secret">
+
+🔒 Секретная
+
+</option>
+
+<option value="ocean">🌊 Океан</option>
+
+<option value="emerald">💚 Изумрудная</option>
+
+<option value="red">❤️ Красная</option>
+
+<option value="pink">💗 Розовая</option>
+
+<option value="neon">🟢 Неон</option>
+
+<option value="cyber">🤖 Киберпанк</option>
+
+<option value="purple">🟣 Фиолетовая</option>
+
+<option value="gold">🏆 Золотая</option>
+
+<option value="lava">🌋 Лава</option>
+
+<option value="ice">🧊 Лёд</option>
+
+<option value="forest">🌲 Лес</option>
+
+<option value="sunset">🌅 Закат</option>
+
+<option value="monochrome">⚪ Чёрно-белая</option>
+
+<option value="void">🕳️ Пустота</option>
+
+<option value="mint">🌿 Мята</option>
+
+<option value="royal">👑 Королевская</option><option value="aurora">🌌 Северное сияние</option><option value="midnight">🌙 Полночь</option><option value="sakura">🌸 Сакура</option><option value="space">🚀 Космос</option><option value="matrix">💻 Матрица</option><option value="crimson">🩸 Кримсон</option><option value="sky">☁️ Небесная</option><option value="coffee">☕ Кофейная</option><option value="hologram">🔮 Голограмма</option><option value="toxic">☣️ Токсичная</option><option value="diamond">💎 Алмазная</option><option value="volcano">🌋 Вулканическая</option><option value="rain">🌧️ Дождливая</option><option value="pixel">🟪 Пиксельная</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<!-- COLOR -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>🎨 Цвет интерфейса</b>
+
+
+
+<span>
+
+Выбери основной цвет сайта
+
+</span>
+
+
+
+</div>
+
+
+
+<div class="colors">
+
+
+
+<button
+
+class="color active"
+
+style="background:#7c5cff"
+
+onclick="setColor('#7c5cff',this)"
+
+></button>
+
+
+
+<button
+
+class="color"
+
+style="background:#4b9cff"
+
+onclick="setColor('#4b9cff',this)"
+
+></button>
+
+
+
+<button
+
+class="color"
+
+style="background:#35d07f"
+
+onclick="setColor('#35d07f',this)"
+
+></button>
+
+
+
+<button
+
+class="color"
+
+style="background:#ff5577"
+
+onclick="setColor('#ff5577',this)"
+
+></button>
+
+
+
+<button
+
+class="color"
+
+style="background:#ff9d42"
+
+onclick="setColor('#ff9d42',this)"
+
+></button>
+
+
+
+<button
+
+class="color"
+
+style="background:#00eaff"
+
+onclick="setColor('#00eaff',this)"
+
+></button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- ANIMATIONS -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>✨ Анимации</b>
+
+
+
+<span>
+
+Плавность интерфейса
+
+</span>
+
+
+
+</div>
+
+
+
+<button
+
+id="animationSwitch"
+
+class="switch on"
+
+onclick="toggleAnimations()"
+
+></button>
+
+
+
+</div>
+
+
+
+<!-- EXTRA VISUAL SETTINGS -->
+
+<div class="settings-group">
+
+<div class="settings-group-title">✨ Дополнительные анимации</div>
+
+<p class="settings-note">Выбери стиль появления, наведения и движения элементов.</p>
+
+<div class="setting"><div class="setting-name"><b>🎬 Стиль анимации</b><span>Классическая, плавная, пружинная, zoom, slide, float, neon, glitch</span></div><select id="animationStyleSelect" class="settings-select" onchange="changeAnimationStyle(this.value)"><option value="classic">Классическая</option><option value="smooth">Плавная</option><option value="bounce">Пружинная</option><option value="zoom">Zoom</option><option value="slide">Slide</option><option value="float">Плавающая</option><option value="neon">Неоновая</option><option value="glitch">Глитч</option></select></div>
+
+<div class="setting"><div class="setting-name"><b>💫 Наведение</b><span>Эффект карточек при наведении</span></div><select id="hoverStyleSelect" class="settings-select" onchange="changeHoverStyle(this.value)"><option value="lift">Подъём</option><option value="glow">Свечение</option><option value="tilt">Наклон</option><option value="scale">Увеличение</option><option value="none">Без эффекта</option></select></div>
+
+<div class="setting"><div class="setting-name"><b>🌠 Открытие страниц</b><span>Fade, Slide, Zoom или Blur</span></div><select id="pageAnimationSelect" class="settings-select" onchange="changePageAnimation(this.value)"><option value="fade">Fade</option><option value="slide">Slide</option><option value="zoom">Zoom</option><option value="blur">Blur</option><option value="none">Нет</option></select></div>
+
+<div class="setting"><div class="setting-name"><b>⚡ Сила анимации</b><span>Интенсивность эффектов</span></div><input id="animationIntensityRange" type="range" min="0" max="100" value="70" oninput="changeAnimationIntensity(this.value)"></div>
+
+<div class="setting"><div class="setting-name"><b>🌊 Плавающие элементы</b><span>Лёгкое движение логотипа и иконок</span></div><button id="floatingSwitch" class="switch on" onclick="toggleFloatingElements()"></button></div>
+
+</div>
+
+
+
+<!-- GALAXY STARS -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>⭐ Звёзды</b>
+
+
+
+<span>
+
+Показывать звёздное небо
+
+</span>
+
+
+
+</div>
+
+
+
+<button
+
+id="starsSwitch"
+
+class="switch on"
+
+onclick="toggleStars()"
+
+></button>
+
+
+
+</div>
+
+
+
+<!-- GALAXY INTENSITY -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>🌌 Интенсивность галактики</b>
+
+
+
+<span>
+
+Количество звёзд и яркость
+
+</span>
+
+
+
+</div>
+
+
+
+<input
+
+id="galaxyIntensity"
+
+type="range"
+
+min="20"
+
+max="250"
+
+value="100"
+
+oninput="changeGalaxyIntensity(this.value)"
+
+>
+
+
+
+</div>
+
+
+
+<!-- CURSOR -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>🖱 Курсор</b>
+
+
+
+<span>
+
+Стиль курсора
+
+</span>
+
+
+
+</div>
+
+
+
+<select
+
+id="cursorSelect"
+
+class="settings-select"
+
+onchange="changeCursor(this.value)"
+
+>
+
+
+
+<option value="circle">⭕ Круг</option><option value="dot">• Точка</option><option value="cross">✚ Крест</option><option value="ring">◎ Кольцо</option><option value="diamond">◇ Алмаз</option><option value="star">★ Звезда</option><option value="spark">✦ Искра</option><option value="target">⌾ Прицел</option><option value="pixel">▪ Пиксель</option><option value="arrow">➤ Стрелка</option><option value="comet">☄ Комета</option><option value="rainbow">🌈 Радуга</option><option value="neon">✧ Неон</option><option value="off">🖱 Обычный</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<!-- SMOOTH -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>⚡ Плавность</b>
+
+
+
+<span>
+
+Скорость переходов сайта
+
+</span>
+
+
+
+</div>
+
+
+
+<select
+
+id="smoothSelect"
+
+class="settings-select"
+
+onchange="changeSmooth(this.value)"
+
+>
+
+
+
+<option value="normal">
+
+Обычная
+
+</option>
+
+
+
+<option value="smooth">
+
+Плавная
+
+</option>
+
+
+
+<option value="ultra">
+
+Очень плавная
+
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+<!-- REDUCE MOTION -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>♿ Минимум движения</b>
+
+
+
+<span>
+
+Уменьшает визуальные эффекты
+
+</span>
+
+
+
+</div>
+
+
+
+<button
+
+id="motionSwitch"
+
+class="switch"
+
+onclick="toggleReducedMotion()"
+
+></button>
+
+
+
+</div>
+
+
+
+<!-- MUSIC -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>🔊 Музыка</b>
+
+
+
+<span>
+
+Открыть HypeMine Music
+
+</span>
+
+
+
+</div>
+
+
+
+<button
+
+class="btn"
+
+onclick="openPageByName('music')"
+
+>
+
+🎵 Открыть
+
+</button>
+
+
+
+</div>
+
+
+
+<!-- DOWNLOAD -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>📥 Лимит скачиваний</b>
+
+
+
+<span id="downloadLimitText">
+
+Обычный аккаунт: максимум 5 скачиваний
+
+</span>
+
+
+
+</div>
+
+
+
+<div
+
+style="
+
+color:var(--accent2);
+
+font-size:11px;
+
+font-weight:900;
+
+"
+
+>
+
+5 / 10
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- ACCOUNT CONNECTIONS -->
+<div class="settings-group"><div class="settings-group-title">🔐 Аккаунты и платежи</div><p class="settings-note">В этой HTML-версии сохраняется только статус подключения. Номер банковской карты не запрашивается и не хранится.</p><div class="account-link-row"><div><b>💳 Банковская карта</b><span id="cardLinkStatus">Не привязана</span></div><button class="btn" onclick="connectPaymentCard()">Привязать</button></div><div class="account-link-row"><div><b>🪟 Microsoft Account</b><span id="microsoftLinkStatus">Не подключён</span></div><button class="btn" onclick="connectMicrosoft()">Подключить</button></div></div>
+
+<!-- RESET -->
+
+
+
+<div class="setting">
+
+
+
+<div class="setting-name">
+
+
+
+<b>♻️ Сброс настроек</b>
+
+
+
+<span>
+
+Вернуть стандартный вид сайта
+
+</span>
+
+
+
+</div>
+
+
+
+<button
+
+class="btn"
+
+onclick="resetSettings()"
+
+>
+
+Сбросить
+
+</button>
+
+
+
+</div>
+
+
+
+<!-- ADMIN -->
+
+
+
+<div
+
+id="adminPanel"
+
+class="premium-box"
+
+style="display:none"
+
+>
+
+
+
+<div class="premium-title">
+
+👑 HypeMine-Premium
+
+</div>
+
+
+
+<div class="premium-status">
+
+Админ-панель выдачи Premium
+
+</div>
+
+
+
+<div
+
+style="
+
+display:flex;
+
+gap:10px;
+
+margin-top:20px;
+
+flex-wrap:wrap;
+
+"
+
+>
+
+
+
+<input
+
+id="premiumNick"
+
+placeholder="Введите ник игрока"
+
+style="
+
+flex:1;
+
+min-width:220px;
+
+height:42px;
+
+padding:0 12px;
+
+color:white;
+
+background:#11151d;
+
+border:1px solid var(--border);
+
+border-radius:9px;
+
+outline:none;
+
+"
+
+>
+
+
+
+<button
+
+class="btn btn-primary"
+
+onclick="givePremium()"
+
+>
+
+👑 Выдать HypeMine-Premium
+
+</button>
+
+
+
+</div>
+
+
+
+<div
+
+id="premiumResult"
+
+style="
+
+margin-top:15px;
+
+font-size:11px;
+
+color:var(--muted);
+
+"
+
+></div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+<footer data-layout-id="footer">
+
+
+
+HypeMine Builds • v0.0.0.2
+
+  •  
+
+
+
+<a
+
+href="https://t.me/minoirr"
+
+target="_blank"
+
+>
+
+Telegram @minoirr
+
+</a>
+
+
+
+</footer>
+
+
+
+</div>
+
+</div>
+
+
+
+
+<!-- ================= PUBLIC LAYOUT EDITOR ================= -->
+<div id="layoutEditorPanel" class="layout-editor-panel">
+  <div class="layout-editor-help">
+    Перетаскивай блоки мышкой. Потяни квадрат в правом нижнем углу, чтобы изменить размер.
+    Настройки сохраняются отдельно в этом браузере.
+  </div>
+  <button type="button" onclick="saveLayout()">💾 Сохранить</button>
+  <button type="button" onclick="resetLayout()">↺ Сбросить</button>
+  <button type="button" class="layout-save" onclick="toggleLayoutEditor()">✓ Готово</button>
+</div>
+
+<!-- ================= ADD BUILD MODAL ================= -->
+<div id="addBuildModal" class="modal" onclick="if(event.target===this)closeAddBuildModal()">
+  <div class="build-upload-box">
+    <div class="build-upload-title">
+      <div><h2 id="buildUploadTitle">＋ Добавить сборку</h2><p class="subtitle">Заполни данные, выбери до 5 изображений и добавь сборку в каталог.</p></div>
+      <button class="close" style="position:static" onclick="closeAddBuildModal()">×</button>
+    </div>
+    <div class="build-form-grid">
+      <div class="build-form-group">
+        <label class="build-form-label">Название сборки</label>
+        <input id="buildNameInput" class="build-input" maxlength="80" placeholder="Например: HypeMine Velocity">
+      </div>
+      <div class="build-form-group">
+        <label class="build-form-label">Тип сборки</label>
+        <select id="buildCategoryInput" class="build-select" onchange="toggleCustomBuildType()">
+          <option value="Сборка Velocity">Сборка Velocity</option><option value="Сборка Lobby">Сборка Lobby</option><option value="Сборка Proxy">Сборка Proxy</option><option value="Сборка Hub">Сборка Hub</option><option value="Сборка Network">Сборка-нетворк</option><option value="Свой вариант">Свой вариант</option>
+        </select>
+        <input id="buildCustomTypeInput" class="build-input build-custom-type" maxlength="60" placeholder="Напиши свой тип сборки...">
+      </div>
+      <div class="build-form-group">
+        <label class="build-form-label">Версия Minecraft</label>
+        <input id="buildVersionInput" class="build-input" maxlength="30" placeholder="Например: 1.21.8">
+      </div>
+      <div class="build-form-group">
+        <label class="build-form-label">Цена</label>
+        <div class="build-price-row">
+          <select id="buildPriceType" class="build-select" onchange="toggleBuildPrice()">
+            <option value="free">Бесплатно — Free</option>
+            <option value="plus">Платный — Plus</option>
+          </select>
+          <input id="buildPriceInput" class="build-input build-price-input" type="number" min="0" step="0.01" placeholder="Цена, например 99">
+        </div>
+      </div>
+      <div class="build-form-group full">
+        <label class="build-form-label">Фото сборки — от 1 до 5 шт.</label>
+        <input id="buildPhotosInput" class="build-file" type="file" accept="image/*" multiple onchange="previewBuildPhotos(event)">
+        <div id="buildPhotoPreview" class="build-photo-grid"></div>
+      </div>
+      <div class="build-form-group full">
+        <label class="build-form-label">Теги сборки</label><div id="buildTagsPicker" class="build-tags-picker"></div>
+      </div>
+      <div class="build-form-group full">
+        <label class="build-form-label">Описание сборки</label>
+        <textarea id="buildDescriptionInput" class="build-textarea" maxlength="5000" placeholder="Подробно опиши сборку, плагины, настройки, особенности и требования..."></textarea>
+      </div>
+      <div class="build-form-group full">
+        <label class="build-form-label">Файл сборки</label>
+        <input id="buildFileInput" class="build-file" type="file" onchange="updateBuildFileLabel()">
+        <div id="buildFileLabel" class="subtitle" style="margin-top:7px">Файл не выбран</div>
+      </div>
+    </div>
+    <div class="build-upload-actions">
+      <button class="btn" onclick="closeAddBuildModal()">Отмена</button>
+      <button class="btn btn-primary" onclick="submitBuild()">📤 Добавить в каталог</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTHOR PROFILE MODAL -->
+<div id="authorProfileModal" class="modal" onclick="if(event.target===this)closeAuthorProfile()"><div class="author-profile-modal"><div style="display:flex;justify-content:flex-end"><button class="close" style="position:static" onclick="closeAuthorProfile()">×</button></div><div class="author-profile-head"><div id="authorProfileAvatar" class="author-profile-avatar">👤</div><div style="min-width:0"><div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><h2 id="authorProfileName" style="margin:0"></h2><span id="authorPremiumBadge" class="tag" style="display:none;color:#ffd166">👑 Premium</span></div><p id="authorProfileBio" class="subtitle"></p></div><button id="authorFollowButton" class="btn">＋ Подписаться</button></div><div class="author-profile-stats"><div class="author-stat"><b id="authorFollowers">0</b><span>Подписчики</span></div><div class="author-stat"><b id="authorLikes">0</b><span>Лайки</span></div><div class="author-stat"><b id="authorViews">0</b><span>Просмотры</span></div><div class="author-stat"><b id="authorDownloads">0</b><span>Скачивания</span></div></div><div class="section-head" style="margin-top:22px"><div><h2 style="font-size:18px">📦 Сборки автора</h2><p class="subtitle">Что этот пользователь загрузил</p></div></div><div id="authorBuildsGrid" class="grid"></div><div class="section-head" style="margin-top:22px"><div><h2 style="font-size:18px">📥 Скачано</h2><p class="subtitle">История скачиваний</p></div></div><div id="authorDownloadedList" class="tags"></div></div></div>
+
+<!-- ================= MODAL ================= -->
+
+
+
+<div
+
+id="buildModal"
+
+class="modal"
+
+onclick="if(event.target===this)closeModal()"
+
+>
+
+
+
+<div class="modal-box">
+
+
+
+<div class="modal-cover">
+
+
+
+<button
+
+class="close"
+
+onclick="closeModal()"
+
+>
+
+×
+
+</button>
+
+
+
+<img
+
+id="modalImage"
+
+src=""
+
+onerror="this.style.display='none'"
+
+>
+
+
+
+<div
+
+id="modalPlaceholder"
+
+class="placeholder"
+
+>
+
+🏰
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="modal-content">
+
+
+
+<h2 id="modalTitle"></h2>
+
+
+
+<div
+
+id="modalTags"
+
+class="tags"
+
+style="margin-top:10px"
+
+></div><div id="modalAuthor" class="build-author" style="margin-top:12px"></div>
+
+
+
+<p
+
+id="modalDescription"
+
+class="modal-text"
+
+></p>
+
+
+
+<div class="details">
+
+
+
+<div class="detail">
+
+<small>Версия</small>
+
+<b id="modalVersion"></b>
+
+</div>
+
+
+
+<div class="detail">
+
+<small>Категория</small>
+
+<b id="modalCategory"></b>
+
+</div>
+
+
+
+<div class="detail">
+
+<small>Рейтинг</small>
+
+<b id="modalRating"></b>
+
+</div>
+
+
+
+<div class="detail">
+
+<small>Формат</small>
+
+<b>ZIP</b>
+
+</div>
+
+
+<div class="detail">
+<small>Цена</small>
+<b id="modalPrice">FREE · Бесплатно</b>
+</div><div class="detail"><small>Дата выхода</small><b id="modalDate"></b></div>
+<div class="detail"><small>Статистика</small><b id="modalStats"></b></div>
+
+
+
+</div>
+
+
+
+<div class="buttons">
+
+
+
+<a
+
+id="downloadButton"
+
+class="btn btn-primary"
+
+download
+
+>
+
+⬇ Скачать
+
+</a>
+
+
+
+<a
+
+href="https://t.me/minoirr"
+
+target="_blank"
+
+class="btn"
+
+>
+
+✈ Telegram
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- ================= AUDIO ================= -->
+
+
+
+<audio
+
+id="audio"
+
+preload="metadata"
+
+></audio>
+
+
+
+<script>
+
+
+
+/* =====================================================
+
+BUILDS
+
+===================================================== */
+
+
+
+let builds=[
+{id:"velocity",name:"Сборка Velocity",category:"Сборка Velocity",version:"1.21.8",rating:"5.0",icon:"⚡",image:"images/velocity.jpg",images:["images/velocity.jpg"],description:"Сборка прокси Velocity для Minecraft-сети.",tags:["🔘 Проксь","🔘 Сборка-нетворк"],priceType:"free",price:"",createdAt:"2026-09-01T00:00:00.000Z",author:{id:"system",name:"HypeMine",avatar:"🏠",premium:true},likes:0},
+{id:"lobby",name:"Сборка Lobby",category:"Сборка Lobby",version:"1.21.8",rating:"5.0",icon:"🏰",image:"images/lobby.jpg",images:["images/lobby.jpg"],description:"Готовая сборка лобби для Minecraft-сети.",tags:["🔘 Хаб","🔘 Сборка-нетворк"],priceType:"free",price:"",createdAt:"2026-09-01T00:00:00.000Z",author:{id:"system",name:"HypeMine",avatar:"🏠",premium:true},likes:0}
+];
+try{const savedUserBuilds=JSON.parse(localStorage.getItem("hm_user_builds")||"[]");if(Array.isArray(savedUserBuilds))builds=[...savedUserBuilds,...builds];}catch(e){}
+const BUILD_TAGS=["✅ Уникальная сборка","🔘 Сборка под копирку","❗ Вирус","🔘 Анархия","🔘 Гриферский","🔘 Бокс-Пвп","🔘 Проксь","🔘 Хаб","🔘 Королевская битва","🔘 Выжывание","🔘 Скай-блок","🔘 Дуель","🔘 Сборка-нетворк","🔘 Мардер-мистер","🔘 Скай-варс","🔘 Бед-варс","🔘 Фулл сборка с проксь хаб/лобби режым","🟪 Все сборки серверов","✅ Овицальныйы сборки от ''Автора''"];
+const buildLikes=new Set(JSON.parse(localStorage.getItem("hm_build_likes")||"[]"));
+const buildViews=JSON.parse(localStorage.getItem("hm_build_views")||"{}");
+const buildDownloads=JSON.parse(localStorage.getItem("hm_build_downloads")||"{}");
+const followedAuthors=new Set(JSON.parse(localStorage.getItem("hm_followed_authors")||"[]"));
+function currentAuthorSnapshot(){const a=getAccount();return a?{id:a.id||makeAccountId(),name:a.name||"Пользователь",avatar:a.avatar||"👤",avatarType:a.avatarType||"emoji",premium:!!a.premium}:{id:"guest",name:"Гость",avatar:"👤",avatarType:"emoji",premium:false};}
+function saveBuildData(){try{localStorage.setItem("hm_user_builds",JSON.stringify(builds.filter(x=>x.userBuild).slice(0,100)));}catch(e){}}
+function saveBuildStats(){localStorage.setItem("hm_build_likes",JSON.stringify([...buildLikes]));localStorage.setItem("hm_build_views",JSON.stringify(buildViews));localStorage.setItem("hm_build_downloads",JSON.stringify(buildDownloads));localStorage.setItem("hm_followed_authors",JSON.stringify([...followedAuthors]));}
+function formatBuildDate(v){if(!v)return"Дата не указана";const d=new Date(v);return isNaN(d)?String(v):d.toLocaleDateString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric"});}
+function authorAvatarHtml(a,small=false){if(a?.avatarType==="image"&&a.avatar)return`<div class="${small?"build-author-avatar":"author-profile-avatar"}"><img src="${escapeHtml(a.avatar)}" alt=""></div>`;return`<div class="${small?"build-author-avatar":"author-profile-avatar"}">${escapeHtml(a?.avatar||"👤")}</div>`;}
+function getAuthorBuilds(id){return builds.filter(x=>(x.author?.id||"guest")===id);}
+function bViews(id){return Number(buildViews[id]||0);}
+function getAuthorStats(id){const bs=getAuthorBuilds(id);return{followers:followedAuthors.has(id)?1:0,likes:bs.reduce((n,b)=>n+(b.likes||0),0),views:bs.reduce((n,b)=>n+bViews(b.id),0),downloads:bs.reduce((n,b)=>n+(buildDownloads[b.id]||0),0)};}
+function toggleBuildLike(id){const b=builds.find(x=>x.id===id);if(!b)return;if(buildLikes.has(id)){buildLikes.delete(id);b.likes=Math.max(0,(b.likes||0)-1);}else{buildLikes.add(id);b.likes=(b.likes||0)+1;}saveBuildData();saveBuildStats();renderAll();}
+function registerBuildView(id){buildViews[id]=(buildViews[id]||0)+1;saveBuildStats();}
+function registerBuildDownload(id){buildDownloads[id]=(buildDownloads[id]||0)+1;saveBuildStats();const h=JSON.parse(localStorage.getItem("hm_download_history")||"[]"),b=builds.find(x=>x.id===id);if(b)h.unshift({id:b.id,name:b.name,date:new Date().toISOString()});localStorage.setItem("hm_download_history",JSON.stringify(h.slice(0,100)));}
+/* =====================================================
+
+MUSIC
+
+===================================================== */
+
+
+
+const musicTracks=[
+
+
+
+{
+
+id:"tiktok",
+
+title:"Плейлист рандомных песен из тик тока [speed up]",
+
+artist:"TikTok Speed Up",
+
+file:"music/tiktok_speed_up.mp3",
+
+playlist:["popular","energy"],
+
+icon:"🔥"
+
+},
+
+
+
+{
+
+id:"mne20",
+
+title:"Мне 20 (Hardstyle Remix)",
+
+artist:"Просто Лера",
+
+file:"music/mne_20_hardstyle.mp3",
+
+playlist:["energy","gaming"],
+
+icon:"💜"
+
+},
+
+
+
+{
+
+id:"dorogu",
+
+title:"Дорогу молодым",
+
+artist:"HypeMine Music",
+
+file:"music/dorogu_molodym.mp3",
+
+playlist:["energy","gaming"],
+
+icon:"⚡"
+
+},
+
+
+
+{
+
+id:"moscow",
+
+title:"Люблю Москву, но снится London",
+
+artist:"HypeMine Music",
+
+file:"music/moscow_london.mp3",
+
+playlist:["night","popular"],
+
+icon:"🌆"
+
+},
+
+
+
+{
+
+id:"deadinside",
+
+title:"Dead Inside",
+
+artist:"HypeMine Music",
+
+file:"music/dead_inside.mp3",
+
+playlist:["night","gaming"],
+
+icon:"🖤"
+
+},
+
+
+
+{
+
+id:"animals",
+
+title:"Animals (Speed)",
+
+artist:"Speed Up",
+
+file:"music/animals_speed.mp3",
+
+playlist:["energy","gaming"],
+
+icon:"🐺"
+
+},
+
+
+
+{
+
+id:"vibe",
+
+title:"Плейлист для вайба и игры",
+
+artist:"HypeMine Mix",
+
+file:"music/vibe_gaming.mp3",
+
+playlist:["gaming","night"],
+
+icon:"🎮"
+
+},
+
+
+
+{
+
+id:"holostyak",
+
+title:"Холостяк [speed up]",
+
+artist:"ЛСП, FEDUK, Егор Крид",
+
+file:"music/holostyak_speed_up.mp3",
+
+playlist:["popular","energy"],
+
+icon:"💔"
+
+},
+
+
+
+{
+
+id:"random",
+
+title:"Плейлист рандомных песен #музыка #плейлист #speedup",
+
+artist:"HypeMine Random",
+
+file:"music/random_speedup.mp3",
+
+playlist:["popular","energy"],
+
+icon:"🎲"
+
+},
+
+
+
+{
+
+id:"lubov",
+
+title:"Любовь с картинки [speed up]",
+
+artist:"Асия, Аня Покров",
+
+file:"music/lubov_s_kartinki_speed_up.mp3",
+
+playlist:["popular","night"],
+
+icon:"❤️"
+
+},
+
+
+
+/* Старые треки */
+
+
+
+{
+
+id:"blinding",
+
+title:"Blinding Lights",
+
+artist:"The Weeknd",
+
+file:"music/blinding_lights.mp3",
+
+playlist:["popular","energy"],
+
+icon:"🌃"
+
+},
+
+
+
+{
+
+id:"sweater",
+
+title:"Sweater Weather",
+
+artist:"The Neighbourhood",
+
+file:"music/sweater_weather.mp3",
+
+playlist:["popular","night"],
+
+icon:"🌙"
+
+},
+
+
+
+{
+
+id:"past",
+
+title:"Past Lives",
+
+artist:"sapientdream",
+
+file:"music/past_lives.mp3",
+
+playlist:["popular","night"],
+
+icon:"🌌"
+
+},
+
+
+
+{
+
+id:"sunroof",
+
+title:"Sunroof",
+
+artist:"Nicky Youre",
+
+file:"music/sunroof.mp3",
+
+playlist:["popular","energy"],
+
+icon:"☀️"
+
+},
+
+
+
+{
+
+id:"golden",
+
+title:"Golden",
+
+artist:"Harry Styles",
+
+file:"music/golden.mp3",
+
+playlist:["popular","energy"],
+
+icon:"✨"
+
+},
+
+
+
+{
+
+id:"end",
+
+title:"End of Beginning",
+
+artist:"Djo",
+
+file:"music/end_of_beginning.mp3",
+
+playlist:["popular","night"],
+
+icon:"🌆"
+
+},
+
+
+
+{
+
+id:"heat",
+
+title:"Heat Waves",
+
+artist:"Glass Animals",
+
+file:"music/heat_waves.mp3",
+
+playlist:["popular","night"],
+
+icon:"🔥"
+
+},
+
+
+
+{
+
+id:"afterdark",
+
+title:"After Dark",
+
+artist:"Mr.Kitty",
+
+file:"music/after_dark.mp3",
+
+playlist:["night","gaming"],
+
+icon:"🌙"
+
+},
+
+
+
+{
+
+id:"snowfall",
+
+title:"Snowfall",
+
+artist:"Øneheart",
+
+file:"music/snowfall.mp3",
+
+playlist:["night"],
+
+icon:"❄️"
+
+},
+
+
+
+{
+
+id:"memory",
+
+title:"Memory Reboot",
+
+artist:"VØJ & Narvent",
+
+file:"music/memory_reboot.mp3",
+
+playlist:["gaming","energy"],
+
+icon:"⚡"
+
+},
+
+
+
+{
+
+id:"neon",
+
+title:"Neon Blade",
+
+artist:"MoonDeity",
+
+file:"music/neon_blade.mp3",
+
+playlist:["gaming","energy"],
+
+icon:"🔮"
+
+},
+
+
+
+{
+
+id:"metamorphosis",
+
+title:"METAMORPHOSIS",
+
+artist:"INTERWORLD",
+
+file:"music/metamorphosis.mp3",
+
+playlist:["gaming","energy"],
+
+icon:"💜"
+
+},
+
+
+
+{
+
+id:"dream",
+
+title:"Dream On",
+
+artist:"Gaming Mix",
+
+file:"music/dream_on.mp3",
+
+playlist:["gaming"],
+
+icon:"🎮"
+
+},
+
+
+
+{
+
+id:"chill",
+
+title:"Chill Night",
+
+artist:"HypeMine Mix",
+
+file:"music/chill_night.mp3",
+
+playlist:["night"],
+
+icon:"🌃"
+
+}
+
+
+
+];
+
+
+
+let currentPlaylist="all";
+
+let currentTracks=[...musicTracks];
+
+let currentTrackIndex=0;
+
+let shuffle=false;
+
+let repeat=false;
+let localTracks=[];
+
+// =====================================================
+// HYPEMINE MUSIC — PERSISTENT USER MUSIC
+// User-added songs are stored in IndexedDB so they remain
+// after page reloads. Built-in tracks are unchanged.
+// =====================================================
+let hmMusicDB = null;
+const HM_MUSIC_DB = "HypeMineMusicDB";
+const HM_MUSIC_STORE = "tracks";
+
+function openMusicDB(){
+  return new Promise((resolve,reject)=>{
+    if(hmMusicDB){ resolve(hmMusicDB); return; }
+    if(!window.indexedDB){ resolve(null); return; }
+
+    const request=indexedDB.open(HM_MUSIC_DB,1);
+    request.onupgradeneeded=e=>{
+      const db=e.target.result;
+      if(!db.objectStoreNames.contains(HM_MUSIC_STORE)){
+        db.createObjectStore(HM_MUSIC_STORE,{keyPath:"id"});
+      }
+    };
+    request.onsuccess=e=>{
+      hmMusicDB=e.target.result;
+      resolve(hmMusicDB);
+    };
+    request.onerror=()=>resolve(null);
+  });
+}
+
+async function loadSavedMusic(){
+  const db=await openMusicDB();
+  if(!db)return;
+
+  return new Promise(resolve=>{
+    try{
+      const req=db.transaction(HM_MUSIC_STORE,"readonly")
+        .objectStore(HM_MUSIC_STORE).getAll();
+
+      req.onsuccess=()=>{
+        localTracks=(req.result||[]).map(t=>({
+          ...t,
+          file:URL.createObjectURL(t.blob),
+          local:true
+        }));
+        resolve();
+      };
+      req.onerror=()=>resolve();
+    }catch(e){ resolve(); }
+  });
+}
+
+async function saveMusicTrack(track){
+  const db=await openMusicDB();
+  if(!db)return false;
+
+  return new Promise(resolve=>{
+    try{
+      const data={...track};
+      delete data.file;
+      const req=db.transaction(HM_MUSIC_STORE,"readwrite")
+        .objectStore(HM_MUSIC_STORE).put(data);
+      req.onsuccess=()=>resolve(true);
+      req.onerror=()=>resolve(false);
+    }catch(e){ resolve(false); }
+  });
+}
+
+async function deleteSavedMusic(id){
+  const db=await openMusicDB();
+  if(!db)return;
+
+  return new Promise(resolve=>{
+    try{
+      const req=db.transaction(HM_MUSIC_STORE,"readwrite")
+        .objectStore(HM_MUSIC_STORE).delete(id);
+      req.onsuccess=()=>resolve();
+      req.onerror=()=>resolve();
+    }catch(e){ resolve(); }
+  });
+}
+
+async function clearSavedMusic(){
+  const db=await openMusicDB();
+  if(!db)return;
+
+  return new Promise(resolve=>{
+    try{
+      const req=db.transaction(HM_MUSIC_STORE,"readwrite")
+        .objectStore(HM_MUSIC_STORE).clear();
+      req.onsuccess=()=>resolve();
+      req.onerror=()=>resolve();
+    }catch(e){ resolve(); }
+  });
+}
+
+function allMusicTracks(){
+  return [...musicTracks,...localTracks];
+}
+
+function releaseLocalObjectURL(track){
+  if(track && track.file && track.local){
+    try{ URL.revokeObjectURL(track.file); }catch(e){}
+  }
+}
+
+
+
+/* =====================================================
+
+PAGE NAVIGATION
+
+===================================================== */
+
+
+
+const titles={
+
+home:"Главная",
+
+catalog:"Каталог",
+
+maps:"Карты",
+
+mods:"Моды",
+
+shaders:"Шейдеры",
+
+plugins:"Плагины",
+
+favorites:"Избранное",
+
+music:"HypeMine Music",
+
+profile:"Профиль",
+
+settings:"Настройки"
+
+};
+
+
+
+function openPage(name,button){
+
+
+
+document
+
+.querySelectorAll(".page")
+
+.forEach(page=>{
+
+page.classList.remove("active");
+
+});
+
+
+
+const page=document.getElementById("page-"+name);
+
+
+
+if(page){
+
+page.classList.add("active");
+
+}
+
+
+
+document
+
+.querySelectorAll(".nav button")
+
+.forEach(btn=>{
+
+btn.classList.remove("active");
+
+});
+
+
+
+if(button){
+
+button.classList.add("active");
+
+}
+
+
+
+document.getElementById("pageTitle").textContent=titles[name];
+
+
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+
+
+if(name==="favorites"){
+
+renderFavorites();
+
+}
+
+
+
+}
+
+
+
+function openPageByName(name){
+
+
+
+const button=[
+
+...document.querySelectorAll(".nav button")
+
+].find(x=>
+
+x.getAttribute("onclick") &&
+
+x.getAttribute("onclick").includes("'"+name+"'")
+
+);
+
+
+
+openPage(name,button);
+
+
+
+}
+
+
+
+/* =====================================================
+
+FAVORITES
+
+===================================================== */
+
+
+
+let favorites=new Set(
+
+JSON.parse(
+
+localStorage.getItem("hm_favorites")||"[]"
+
+)
+
+);
+
+
+
+function toggleFavorite(id){
+
+
+
+if(favorites.has(id)){
+
+favorites.delete(id);
+
+}else{
+
+favorites.add(id);
+
+}
+
+
+
+localStorage.setItem(
+
+"hm_favorites",
+
+JSON.stringify([...favorites])
+
+);
+
+
+
+renderAll();
+
+
+
+}
+
+
+
+/* =====================================================
+
+CARDS
+
+===================================================== */
+
+
+
+function card(build){
+const firstImage=(build.images&&build.images.length?build.images[0]:build.image)||"";const a=build.author||{id:"guest",name:"Гость",avatar:"👤"};
+const price=build.priceType==="plus"?`<span class="build-price-badge plus">PLUS · ${escapeHtml(build.price||"")} zł</span>`:`<span class="build-price-badge">FREE · Бесплатно</span>`;
+return`<article class="card"><div class="cover"><img src="${escapeHtml(firstImage)}" onerror="this.style.display='none'"><div class="placeholder">${escapeHtml(build.icon||"📦")}</div><div class="category">${escapeHtml(build.category||"Сборка")}</div><button class="fav ${favorites.has(build.id)?"active":""}" onclick="event.stopPropagation();toggleFavorite('${escapeHtml(build.id)}')">♥</button><button class="build-like-btn ${buildLikes.has(build.id)?"active":""}" onclick="event.stopPropagation();toggleBuildLike('${escapeHtml(build.id)}')">♥</button></div><div class="card-body"><div class="card-title-row"><h3 class="card-title">${escapeHtml(build.name)}</h3><div class="rating">★ ${escapeHtml(build.rating||"5.0")}</div></div><p class="desc">${escapeHtml(build.description||"")}</p><div class="tags">${(build.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div><div class="build-author" onclick="event.stopPropagation();openAuthorProfile('${escapeHtml(a.id||"guest")}')">${authorAvatarHtml(a,true)}<div style="min-width:0"><div class="build-author-name">${escapeHtml(a.name||"Гость")}${a.premium?" 👑":""}</div><div class="build-date">Вышла: ${formatBuildDate(build.createdAt)}</div></div></div><div class="meta"><span>Minecraft ${escapeHtml(build.version||"—")}</span>${price}</div><div class="build-stats-line"><span>👁 ${bViews(build.id)}</span><span>♥ ${build.likes||0}</span><span>⬇ ${buildDownloads[build.id]||0}</span></div><button class="card-btn" onclick="openBuild('${escapeHtml(build.id)}')">Подробнее →</button>${build.userBuild?`<div class="build-card-actions"><button class="btn build-edit-btn" onclick="event.stopPropagation();editBuild('${escapeHtml(build.id)}')">✏ Изменить</button><button class="btn build-delete-btn" onclick="event.stopPropagation();deleteBuild('${escapeHtml(build.id)}')">🗑 Удалить</button></div>`:""}</div></article>`;
+}
+function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+
+/* =====================================================
+   PUBLIC ADD / EDIT BUILD
+===================================================== */
+let editingBuildId=null;
+function initBuildTags(selected=[]){const box=document.getElementById("buildTagsPicker");if(!box)return;box.innerHTML=BUILD_TAGS.map(t=>`<label class="build-tag-option"><input type="checkbox" value="${hmEscape(t)}" ${selected.includes(t)?"checked":""}>${hmEscape(t)}</label>`).join("");}
+function getSelectedBuildTags(){return[...document.querySelectorAll("#buildTagsPicker input:checked")].map(x=>x.value);}
+function toggleCustomBuildType(){const s=document.getElementById("buildCategoryInput"),i=document.getElementById("buildCustomTypeInput");if(!s||!i)return;i.classList.toggle("show",s.value==="Свой вариант");i.required=s.value==="Свой вариант";}
+function resetBuildForm(){["buildNameInput","buildCustomTypeInput","buildVersionInput","buildDescriptionInput","buildPriceInput"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});const p=document.getElementById("buildPhotosInput"),f=document.getElementById("buildFileInput");if(p)p.value="";if(f)f.value="";const pr=document.getElementById("buildPhotoPreview");if(pr)pr.innerHTML="";const l=document.getElementById("buildFileLabel");if(l)l.textContent="Файл не выбран";const pt=document.getElementById("buildPriceType");if(pt)pt.value="free";}
+function openAddBuildModal(){editingBuildId=null;const m=document.getElementById("addBuildModal");if(!m)return;document.getElementById("buildUploadTitle").textContent="＋ Добавить сборку";resetBuildForm();initBuildTags([]);toggleBuildPrice();toggleCustomBuildType();m.classList.add("active");m.style.display="flex";}
+function editBuild(id){const b=builds.find(x=>x.id===id);if(!b||!b.userBuild)return;editingBuildId=id;const m=document.getElementById("addBuildModal");document.getElementById("buildUploadTitle").textContent="✏ Изменить сборку";document.getElementById("buildNameInput").value=b.name||"";const s=document.getElementById("buildCategoryInput"),known=["Сборка Velocity","Сборка Lobby","Сборка Proxy","Сборка Hub","Сборка Network"];if(known.includes(b.category)){s.value=b.category;document.getElementById("buildCustomTypeInput").value="";}else{s.value="Свой вариант";document.getElementById("buildCustomTypeInput").value=b.category||"";}document.getElementById("buildVersionInput").value=b.version||"";document.getElementById("buildDescriptionInput").value=b.description||"";document.getElementById("buildPriceType").value=b.priceType||"free";document.getElementById("buildPriceInput").value=b.price||"";initBuildTags(b.tags||[]);document.getElementById("buildPhotoPreview").innerHTML=(b.images||[b.image]).filter(Boolean).slice(0,5).map(x=>`<img src="${escapeHtml(x)}" style="width:100%;height:110px;object-fit:cover;border-radius:10px;border:1px solid var(--border)">`).join("");document.getElementById("buildFileLabel").textContent=b.fileName?"Текущий файл: "+b.fileName:"Файл можно заменить";toggleBuildPrice();toggleCustomBuildType();m.classList.add("active");m.style.display="flex";}
+function deleteBuild(id){const b=builds.find(x=>x.id===id);if(!b||!b.userBuild)return;if(!confirm(`Удалить сборку «${b.name}»?`))return;builds=builds.filter(x=>x.id!==id);saveBuildData();renderAll();}
+function closeAddBuildModal(){const m=document.getElementById("addBuildModal");if(!m)return;m.classList.remove("active");m.style.display="";editingBuildId=null;}
+function toggleBuildPrice(){const t=document.getElementById("buildPriceType"),p=document.getElementById("buildPriceInput");if(!t||!p)return;const paid=t.value==="plus";p.disabled=!paid;p.style.opacity=paid?"1":".55";if(!paid)p.value="";}
+function updateBuildFileLabel(){const i=document.getElementById("buildFileInput"),l=document.getElementById("buildFileLabel");if(i&&l)l.textContent=i.files&&i.files[0]?"Выбран файл: "+i.files[0].name:"Файл не выбран";}
+function previewBuildPhotos(e){const i=e.target,p=document.getElementById("buildPhotoPreview");if(i.files.length>5){alert("Можно выбрать максимум 5 фотографий.");i.value="";p.innerHTML="";return;}p.innerHTML="";[...i.files].forEach(f=>{if(!f.type.startsWith("image/"))return;const u=URL.createObjectURL(f),im=document.createElement("img");im.src=u;im.style.cssText="width:100%;height:110px;object-fit:cover;border-radius:10px;border:1px solid var(--border)";im.onload=()=>URL.revokeObjectURL(u);p.appendChild(im);});}
+function hmEscape(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function submitBuild(){
+const name=(document.getElementById("buildNameInput")?.value||"").trim(),sel=document.getElementById("buildCategoryInput"),custom=(document.getElementById("buildCustomTypeInput")?.value||"").trim(),category=sel?.value==="Свой вариант"?custom:(sel?.value||"Сборка Velocity"),version=(document.getElementById("buildVersionInput")?.value||"").trim(),description=(document.getElementById("buildDescriptionInput")?.value||"").trim(),priceType=document.getElementById("buildPriceType")?.value||"free",price=(document.getElementById("buildPriceInput")?.value||"").trim(),photos=document.getElementById("buildPhotosInput"),file=document.getElementById("buildFileInput");
+if(!name||!category||!version||!description)return alert("Заполни название, тип, версию и описание.");if(!editingBuildId&&!photos.files.length)return alert("Добавьте хотя бы одно фото.");if(photos.files.length>5)return alert("Можно добавить максимум 5 фотографий.");if(priceType==="plus"&&(!price||Number(price)<0))return alert("Укажите корректную цену.");
+const existing=editingBuildId?builds.find(x=>x.id===editingBuildId):null,files=[...photos.files].slice(0,5),read=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f);}),promise=files.length?Promise.all(files.map(read)):Promise.resolve(existing?.images||[existing?.image].filter(Boolean));
+promise.then(images=>{const a=currentAuthorSnapshot(),b=existing||{id:"user-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),createdAt:new Date().toISOString(),userBuild:true,likes:0,author:a,rating:"5.0",icon:"📦"};b.name=name;b.category=category;b.version=version;b.description=description;b.tags=getSelectedBuildTags();if(!b.tags.length)b.tags=["🔘 Сборка-нетворк"];b.priceType=priceType;b.price=priceType==="plus"?price:"";b.images=images.slice(0,5);b.image=b.images[0]||"";b.author=existing?.author||a;if(file.files[0])b.fileName=file.files[0].name;if(!existing)builds=[b,...builds];saveBuildData();renderAll();closeAddBuildModal();alert(existing?"Сборка изменена.":"Сборка добавлена в каталог.");}).catch(()=>alert("Не удалось обработать фотографии."));
+}
+function updateAddBuildButton(){const b=document.getElementById("addBuildButton");if(b)b.style.display="";}
+
+/* =====================================================
+
+RENDER
+
+===================================================== */
+
+
+
+function renderAll(){
+  document.getElementById("homeGrid").innerHTML=builds.slice(0,2).map(card).join("");
+  document.getElementById("statBuilds").textContent=builds.length;
+  const filters=document.getElementById("filters");
+  filters.innerHTML="";
+  ["Сборка Velocity","Сборка Lobby"].forEach((category,index)=>{
+    const btn=document.createElement("button");
+    btn.className="filter"+(index===0?" active":"");
+    btn.textContent=category;
+    btn.onclick=()=>{
+      document.querySelectorAll("#filters .filter").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active"); renderCatalog(category);
+    };
+    filters.appendChild(btn);
+  });
+  renderCatalog("Сборка Velocity");
+  renderCategory("mapsGrid","Карты"); renderCategory("modsGrid","Моды");
+  renderCategory("shadersGrid","Шейдеры"); renderCategory("pluginsGrid","Плагины");
+  renderFavorites(); renderMusic(); updateAddBuildButton();
+}
+function renderCatalog(category="Сборка Velocity"){
+  const query=(document.getElementById("catalogSearch")?.value||"").toLowerCase().trim();
+  const list=builds.filter(build=>{
+    const text=(build.name+" "+build.description+" "+(build.tags||[]).join(" ")).toLowerCase();
+    return build.category===category && text.includes(query);
+  });
+  document.getElementById("catalogGrid").innerHTML=list.length?list.map(card).join(""):`<p style="color:var(--muted)">В этой категории пока нет сборок.</p>`;
+}
+function renderCategory(id,category){
+  const el=document.getElementById(id); if(!el)return;
+  const list=builds.filter(x=>x.category===category);
+  el.innerHTML=list.length?list.map(card).join(""):`<p style="color:var(--muted)">Пока пусто.</p>`;
+}
+
+function renderFavorites(){
+
+
+
+const list=builds.filter(
+
+x=>favorites.has(x.id)
+
+);
+
+
+
+document.getElementById("favoriteGrid").innerHTML=
+
+list.length
+
+?list.map(card).join("")
+
+:`
+
+
+
+<div style="
+
+grid-column:1/-1;
+
+padding:50px;
+
+text-align:center;
+
+color:var(--muted);
+
+border:1px dashed var(--border);
+
+border-radius:13px;
+
+">
+
+
+
+❤️<br><br>
+
+
+
+В избранном пока ничего нет.
+
+
+
+</div>
+
+
+
+`;
+
+
+
+}
+
+
+
+/* =====================================================
+
+MODAL
+
+===================================================== */
+
+
+
+function openBuild(id){const b=builds.find(x=>x.id===id);if(!b)return;registerBuildView(id);document.getElementById("modalTitle").textContent=b.name;document.getElementById("modalDescription").textContent=b.description||"";document.getElementById("modalVersion").textContent=b.version||"—";document.getElementById("modalCategory").textContent=b.category||"—";document.getElementById("modalRating").textContent="★ "+(b.rating||"5.0");document.getElementById("modalTags").innerHTML=(b.tags||[]).map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join("");const imgs=(b.images&&b.images.length?b.images:[b.image]).filter(Boolean).slice(0,5),im=document.getElementById("modalImage");im.src=imgs[0]||"";im.style.display=imgs[0]?"block":"none";document.getElementById("modalPlaceholder").textContent=b.icon||"📦";let g=document.getElementById("modalGallery");if(!g){g=document.createElement("div");g.id="modalGallery";g.className="build-gallery";document.querySelector("#buildModal .modal-cover").after(g);}g.innerHTML=imgs.map((x,i)=>`<img src="${escapeHtml(x)}" alt="Фото ${i+1}" onclick="document.getElementById('modalImage').src='${escapeHtml(x)}'">`).join("");document.getElementById("modalPrice").textContent=b.priceType==="plus"?`PLUS · ${b.price||"0"} zł`:"FREE · Бесплатно";document.getElementById("modalDate").textContent=formatBuildDate(b.createdAt);document.getElementById("modalStats").textContent=`👁 ${bViews(b.id)} · ♥ ${b.likes||0} · ⬇ ${buildDownloads[b.id]||0}`;const ma=document.getElementById("modalAuthor");ma.innerHTML=`${authorAvatarHtml(b.author||{name:"Гость",avatar:"👤"},true)}<span>${escapeHtml(b.author?.name||"Гость")}${b.author?.premium?" 👑":""}</span>`;ma.onclick=()=>openAuthorProfile(b.author?.id||"guest");const d=document.getElementById("downloadButton");d.onclick=()=>registerBuildDownload(b.id);d.href=b.local&&b.fileBlob?(b._downloadUrl=URL.createObjectURL(b.fileBlob),b._downloadUrl):"builds/"+encodeURIComponent(b.id)+".zip";d.download=b.fileName||b.id+".zip";d.textContent=b.priceType==="plus"?"⬇ Скачать Plus":"⬇ Скачать бесплатно";document.getElementById("buildModal").classList.add("show");}
+
+function closeModal(){
+
+
+
+document
+
+.getElementById("buildModal")
+
+.classList.remove("show");
+
+
+
+}
+
+
+
+/* =====================================================
+
+SEARCH
+
+===================================================== */
+
+
+
+document
+
+.getElementById("catalogSearch")
+
+.addEventListener(
+
+"input",
+
+()=>renderCatalog()
+
+);
+
+
+
+document
+
+.getElementById("globalSearch")
+
+.addEventListener(
+
+"input",
+
+e=>{
+
+
+
+document.getElementById("catalogSearch").value=
+
+e.target.value;
+
+
+
+openPageByName("catalog");
+
+
+
+renderCatalog();
+
+
+
+}
+
+);
+
+
+
+/* =====================================================
+
+MUSIC
+
+===================================================== */
+
+
+
+function selectPlaylist(type,button){
+
+
+
+currentPlaylist=type;
+
+
+
+document
+
+.querySelectorAll(".playlist")
+
+.forEach(x=>{
+
+x.classList.remove("active");
+
+});
+
+
+
+if(button){
+
+button.classList.add("active");
+
+}
+
+
+
+const search=
+
+document
+
+.getElementById("musicSearch")
+
+.value
+
+.toLowerCase()
+
+.trim();
+
+
+
+if(type==="all"){
+
+
+
+currentTracks=[...musicTracks];
+
+
+
+}else{
+
+
+
+currentTracks=musicTracks.filter(
+
+track=>track.playlist.includes(type)
+
+);
+
+
+
+}
+
+
+
+if(search){
+
+
+
+currentTracks=currentTracks.filter(track=>{
+
+
+
+const text=(
+
+track.title+" "+
+
+track.artist
+
+).toLowerCase();
+
+
+
+return text.includes(search);
+
+
+
+});
+
+
+
+}
+
+
+
+currentTrackIndex=0;
+
+
+
+renderMusic();
+
+
+
+}
+
+
+
+function renderMusic(){
+
+
+
+const list=document.getElementById("trackList");
+
+
+
+if(!currentTracks.length){
+
+
+
+list.innerHTML=`
+
+
+
+<div class="empty-music">
+
+
+
+🎵<br><br>
+
+
+
+Песни не найдены.
+
+
+
+</div>
+
+
+
+`;
+
+
+
+return;
+
+
+
+}
+
+
+
+list.innerHTML=currentTracks.map(
+
+(track,index)=>`
+
+
+
+<div class="
+
+track
+
+${index===currentTrackIndex?"active":""}
+
+">
+
+
+
+<div class="track-cover">
+
+${track.icon}
+
+</div>
+
+
+
+<div class="track-info">
+
+
+
+<b>
+
+${track.title}
+
+</b>
+
+
+
+<span>
+
+${track.artist}
+
+</span>
+
+
+
+</div>
+
+
+
+<button
+
+class="track-play"
+
+onclick="playTrack(${index})"
+
+>
+
+${index===currentTrackIndex && !audio.paused?"❚❚":"▶"}
+
+</button>
+
+
+
+</div>
+
+
+
+`
+
+).join("");
+
+
+
+}
+
+
+
+document
+
+.getElementById("musicSearch")
+
+.addEventListener(
+
+"input",
+
+function(){
+
+
+
+const search=this.value
+
+.toLowerCase()
+
+.trim();
+
+
+
+let base;
+
+
+
+if(currentPlaylist==="all"){
+
+
+
+base=[...musicTracks];
+
+
+
+}else{
+
+
+
+base=musicTracks.filter(
+
+track=>track.playlist.includes(currentPlaylist)
+
+);
+
+
+
+}
+
+
+
+if(search){
+
+
+
+base=base.filter(track=>{
+
+
+
+const text=(
+
+track.title+
+
+" "+
+
+track.artist
+
+).toLowerCase();
+
+
+
+return text.includes(search);
+
+
+
+});
+
+
+
+}
+
+
+
+currentTracks=base;
+
+currentTrackIndex=0;
+
+
+
+renderMusic();
+
+
+
+});
+
+
+
+const musicFileInput=document.getElementById("musicFileInput");
+if(musicFileInput){
+  musicFileInput.addEventListener("change",async function(){
+    const files=[...this.files].filter(file=>
+      file.type.startsWith("audio/") ||
+      /\.(mp3|wav|ogg|m4a|aac|flac)$/i.test(file.name)
+    );
+
+    let added=0;
+
+    for(const file of files){
+      const duplicate=localTracks.some(t=>
+        t.name===file.name &&
+        t.size===file.size
+      );
+
+      if(duplicate)continue;
+
+      const track={
+        id:"local-"+Date.now()+"-"+Math.random().toString(36).slice(2),
+        title:file.name.replace(/\.[^/.]+$/,""),
+        artist:"Моя музыка",
+        playlist:["popular"],
+        icon:"🎵",
+        local:true,
+        name:file.name,
+        size:file.size,
+        type:file.type||"audio/mpeg",
+        blob:file
+      };
+
+      const saved=await saveMusicTrack(track);
+
+      if(saved){
+        track.file=URL.createObjectURL(file);
+        localTracks.push(track);
+        added++;
+      }
+    }
+
+    currentPlaylist="all";
+    currentTracks=allMusicTracks();
+    currentTrackIndex=0;
+
+    document.querySelectorAll(".playlist")
+      .forEach(x=>x.classList.remove("active"));
+
+    const all=document.querySelector(".playlist");
+    if(all)all.classList.add("active");
+
+    renderMusic();
+
+    const hint=document.getElementById("musicFileHint");
+    if(hint){
+      hint.style.display="inline";
+      hint.textContent=added
+        ? `✅ Добавлено и сохранено: ${added} файл(ов)`
+        : "Файл не выбран или уже добавлен";
+    }
+
+    this.value="";
+  });
+}
+
+
+
+/* Restore user's saved HypeMine Music */
+(async function(){
+  await loadSavedMusic();
+  currentTracks=allMusicTracks();
+  renderMusic();
+})();
+
+function clearMusicSearch(){
+
+
+
+document.getElementById("musicSearch").value="";
+
+
+
+selectPlaylist(
+
+currentPlaylist,
+
+document.querySelector(".playlist.active")
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+AUDIO PLAYER
+
+===================================================== */
+
+
+
+const audio=document.getElementById("audio");
+
+const progress=document.getElementById("progress");
+
+const volume=document.getElementById("volume");
+
+const playButton=document.getElementById("playButton");
+
+const albumLarge=document.getElementById("albumLarge");
+const savedHMVolume=localStorage.getItem("hm_site_volume");
+if(savedHMVolume!==null){
+  const v=Math.max(0,Math.min(1,Number(savedHMVolume)/100));
+  if(!Number.isNaN(v)){
+    audio.volume=v;
+    if(volume)volume.value=v;
+  }
+}else if(volume){
+  audio.volume=Number(volume.value||.5);
+}
+
+
+
+
+function loadTrack(index,autoplay=false){
+
+
+
+if(!currentTracks.length)return;
+
+
+
+if(index<0){
+
+index=currentTracks.length-1;
+
+}
+
+
+
+if(index>=currentTracks.length){
+
+index=0;
+
+}
+
+
+
+currentTrackIndex=index;
+
+
+
+const track=currentTracks[index];
+
+
+
+audio.src=track.file;
+
+
+
+document.getElementById("trackName").textContent=
+
+track.title;
+
+
+
+document.getElementById("musicTitle").textContent=
+
+track.artist;
+
+
+
+albumLarge.textContent=
+
+track.icon;
+
+
+
+document.getElementById("playlistName").textContent=
+
+"🎧 "+getPlaylistName(currentPlaylist);
+
+
+
+progress.value=0;
+
+
+
+renderMusic();
+
+
+
+if(autoplay){
+
+
+
+audio.play()
+
+.then(()=>{
+
+
+
+playButton.textContent="❚❚";
+
+
+
+albumLarge.classList.add("playing");
+
+
+
+renderMusic();
+
+
+
+})
+
+.catch(()=>{
+
+
+
+playButton.textContent="▶";
+
+
+
+albumLarge.classList.remove("playing");
+
+
+
+document.getElementById("trackName").textContent=
+
+track.title+
+
+" • MP3 не найден";
+
+
+
+});
+
+
+
+}
+
+
+
+}
+
+
+
+function playTrack(index){
+
+
+
+if(
+
+currentTrackIndex===index &&
+
+audio.src &&
+
+!audio.paused
+
+){
+
+
+
+audio.pause();
+
+
+
+return;
+
+
+
+}
+
+
+
+loadTrack(index,true);
+
+
+
+}
+
+
+
+function toggleMusic(){
+
+
+
+if(!audio.src){
+
+
+
+loadTrack(currentTrackIndex,true);
+
+
+
+return;
+
+
+
+}
+
+
+
+if(audio.paused){
+
+
+
+audio.play()
+
+.then(()=>{
+
+
+
+playButton.textContent="❚❚";
+
+
+
+albumLarge.classList.add("playing");
+
+
+
+renderMusic();
+
+
+
+})
+
+.catch(()=>{
+
+
+
+document.getElementById("trackName").textContent=
+
+"Не удалось открыть MP3";
+
+
+
+});
+
+
+
+}else{
+
+
+
+audio.pause();
+
+
+
+playButton.textContent="▶";
+
+
+
+albumLarge.classList.remove("playing");
+
+
+
+renderMusic();
+
+
+
+}
+
+
+
+}
+
+
+
+function nextTrack(){
+
+
+
+if(!currentTracks.length)return;
+
+
+
+if(shuffle){
+
+
+
+let next;
+
+
+
+if(currentTracks.length===1){
+
+
+
+next=0;
+
+
+
+}else{
+
+
+
+do{
+
+
+
+next=Math.floor(
+
+Math.random()*currentTracks.length
+
+);
+
+
+
+}while(next===currentTrackIndex);
+
+
+
+}
+
+
+
+currentTrackIndex=next;
+
+
+
+}else{
+
+
+
+currentTrackIndex++;
+
+
+
+if(currentTrackIndex>=currentTracks.length){
+
+currentTrackIndex=0;
+
+}
+
+
+
+}
+
+
+
+loadTrack(currentTrackIndex,true);
+
+
+
+}
+
+
+
+function previousTrack(){
+
+
+
+if(!currentTracks.length)return;
+
+
+
+if(audio.currentTime>5){
+
+
+
+audio.currentTime=0;
+
+
+
+return;
+
+
+
+}
+
+
+
+currentTrackIndex--;
+
+
+
+if(currentTrackIndex<0){
+
+currentTrackIndex=currentTracks.length-1;
+
+}
+
+
+
+loadTrack(currentTrackIndex,true);
+
+
+
+}
+
+
+
+function toggleShuffle(){
+
+
+
+shuffle=!shuffle;
+
+
+
+const button=document.getElementById("shuffleButton");
+
+
+
+button.style.borderColor=
+
+shuffle
+
+?"var(--accent)"
+
+:"var(--border)";
+
+
+
+button.style.background=
+
+shuffle
+
+?"rgba(124,92,255,.15)"
+
+:"#151922";
+
+
+
+}
+
+
+
+function toggleRepeat(){
+
+
+
+repeat=!repeat;
+
+
+
+const button=document.getElementById("repeatButton");
+
+
+
+button.style.borderColor=
+
+repeat
+
+?"var(--accent)"
+
+:"var(--border)";
+
+
+
+button.style.background=
+
+repeat
+
+?"rgba(124,92,255,.15)"
+
+:"#151922";
+
+
+
+}
+
+
+
+function getPlaylistName(type){
+
+
+
+const names={
+
+all:"Все песни",
+
+popular:"Популярное",
+
+night:"Night / Chill",
+
+energy:"Energy",
+
+gaming:"Gaming"
+
+};
+
+
+
+return names[type]||"HypeMine Music";
+
+
+
+}
+
+
+
+audio.addEventListener(
+
+"timeupdate",
+
+()=>{
+
+
+
+if(audio.duration){
+
+
+
+progress.value=
+
+audio.currentTime/audio.duration*100;
+
+
+
+document.getElementById("currentTime").textContent=
+
+formatTime(audio.currentTime);
+
+
+
+document.getElementById("duration").textContent=
+
+formatTime(audio.duration);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+audio.addEventListener(
+
+"loadedmetadata",
+
+()=>{
+
+
+
+if(audio.duration){
+
+
+
+document.getElementById("duration").textContent=
+
+formatTime(audio.duration);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+audio.addEventListener(
+
+"play",
+
+()=>{
+
+
+
+playButton.textContent="❚❚";
+
+
+
+albumLarge.classList.add("playing");
+
+
+
+renderMusic();
+
+
+
+}
+
+);
+
+
+
+audio.addEventListener(
+
+"pause",
+
+()=>{
+
+
+
+playButton.textContent="▶";
+
+
+
+albumLarge.classList.remove("playing");
+
+
+
+renderMusic();
+
+
+
+}
+
+);
+
+
+
+audio.addEventListener(
+
+"ended",
+
+()=>{
+
+
+
+if(repeat){
+
+
+
+audio.currentTime=0;
+
+
+
+audio.play();
+
+
+
+}else{
+
+
+
+nextTrack();
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+audio.addEventListener(
+
+"error",
+
+()=>{
+
+
+
+if(audio.src){
+
+
+
+const track=
+
+currentTracks[currentTrackIndex];
+
+
+
+if(track){
+
+
+
+document.getElementById("trackName").textContent=
+
+track.title+
+
+" • MP3 не найден";
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+progress.addEventListener(
+
+"input",
+
+()=>{
+
+
+
+if(audio.duration){
+
+
+
+audio.currentTime=
+
+progress.value/100*
+
+audio.duration;
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+volume.addEventListener(
+
+"input",
+
+()=>{
+
+
+
+audio.volume=volume.value;
+
+
+
+localStorage.setItem(
+
+"hm_volume",
+
+volume.value
+
+);
+
+
+
+}
+
+);
+
+
+
+function formatTime(seconds){
+
+
+
+if(!seconds || isNaN(seconds))
+
+return "0:00";
+
+
+
+const minutes=
+
+Math.floor(seconds/60);
+
+
+
+const secs=
+
+Math.floor(seconds%60)
+
+.toString()
+
+.padStart(2,"0");
+
+
+
+return minutes+":"+secs;
+
+
+
+}
+
+
+
+/* =====================================================
+
+COLORS
+
+===================================================== */
+
+
+
+function setColor(color,button){
+
+
+
+document.documentElement.style.setProperty(
+
+"--accent",
+
+color
+
+);
+
+
+
+document.documentElement.style.setProperty(
+
+"--accent2",
+
+color
+
+);
+
+
+
+document
+
+.querySelectorAll(".color")
+
+.forEach(x=>x.classList.remove("active"));
+
+
+
+if(button){
+
+button.classList.add("active");
+
+}
+
+
+
+localStorage.setItem(
+
+"hm_color",
+
+color
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+ANIMATIONS
+
+===================================================== */
+
+
+
+function toggleAnimations(){
+
+
+
+const body=document.body;
+
+
+
+const disabled=
+
+body.classList.toggle("no-animations");
+
+
+
+document
+
+.getElementById("animationSwitch")
+
+.classList.toggle(
+
+"on",
+
+!disabled
+
+);
+
+
+
+localStorage.setItem(
+
+"hm_animations",
+
+!disabled
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+CURSOR
+
+===================================================== */
+
+
+
+function changeCursor(type){
+
+
+
+document.body.classList.remove(
+
+"cursor-dot",
+
+"cursor-cross"
+
+);
+
+
+
+if(type==="dot"){
+
+
+
+document.body.classList.add(
+
+"cursor-dot"
+
+);
+
+
+
+}
+
+
+
+if(type==="cross"){
+
+
+
+document.body.classList.add(
+
+"cursor-cross"
+
+);
+
+
+
+}
+
+
+
+localStorage.setItem(
+
+"hm_cursor",
+
+type
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+SMOOTH
+
+===================================================== */
+
+
+
+function changeSmooth(value){
+
+
+
+let duration=".25s";
+
+
+
+if(value==="smooth")
+
+duration=".4s";
+
+
+
+if(value==="ultra")
+
+duration=".65s";
+
+
+
+document.documentElement.style.setProperty(
+
+"--smooth",
+
+duration
+
+);
+
+
+
+localStorage.setItem(
+
+"hm_smooth",
+
+value
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+REDUCED MOTION
+
+===================================================== */
+
+
+
+function toggleReducedMotion(){
+
+
+
+const enabled=
+
+document.body.classList.toggle(
+
+"no-animations"
+
+);
+
+
+
+document
+
+.getElementById("motionSwitch")
+
+.classList.toggle(
+
+"on",
+
+enabled
+
+);
+
+
+
+localStorage.setItem(
+
+"hm_reduced_motion",
+
+enabled
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+GALAXY
+
+===================================================== */
+
+
+
+const canvas=
+
+document.getElementById("galaxyCanvas");
+
+
+
+const ctx=
+
+canvas.getContext("2d");
+
+
+
+let stars=[];
+
+let galaxyEnabled=true;
+
+let galaxyCount=100;
+
+
+
+function resizeCanvas(){
+
+
+
+canvas.width=
+
+window.innerWidth;
+
+
+
+canvas.height=
+
+window.innerHeight;
+
+
+
+createStars();
+
+
+
+}
+
+
+
+function createStars(){
+
+
+
+stars=[];
+
+
+
+for(let i=0;i<galaxyCount;i++){
+
+
+
+stars.push({
+
+
+
+x:Math.random()*canvas.width,
+
+
+
+y:Math.random()*canvas.height,
+
+
+
+size:
+
+Math.random()*1.7+.2,
+
+
+
+speed:
+
+Math.random()*.25+.05,
+
+
+
+alpha:
+
+Math.random()*.8+.2
+
+
+
+});
+
+
+
+}
+
+
+
+}
+
+
+
+function drawGalaxy(){
+
+
+
+ctx.clearRect(
+
+0,
+
+0,
+
+canvas.width,
+
+canvas.height
+
+);
+
+
+
+if(!galaxyEnabled){
+
+
+
+requestAnimationFrame(drawGalaxy);
+
+
+
+return;
+
+
+
+}
+
+
+
+for(const star of stars){
+
+
+
+star.y+=star.speed;
+
+
+
+if(star.y>canvas.height){
+
+
+
+star.y=0;
+
+star.x=Math.random()*canvas.width;
+
+
+
+}
+
+
+
+ctx.globalAlpha=star.alpha;
+
+
+
+ctx.beginPath();
+
+
+
+ctx.arc(
+
+star.x,
+
+star.y,
+
+star.size,
+
+0,
+
+Math.PI*2
+
+);
+
+
+
+ctx.fillStyle="white";
+
+
+
+ctx.fill();
+
+
+
+}
+
+
+
+ctx.globalAlpha=1;
+
+
+
+requestAnimationFrame(drawGalaxy);
+
+
+
+}
+
+
+
+function toggleStars(){
+
+
+
+galaxyEnabled=!galaxyEnabled;
+
+
+
+document
+
+.getElementById("starsSwitch")
+
+.classList.toggle(
+
+"on",
+
+galaxyEnabled
+
+);
+
+
+
+localStorage.setItem(
+
+"hm_stars",
+
+galaxyEnabled
+
+);
+
+
+
+}
+
+
+
+function changeGalaxyIntensity(value){
+
+
+
+galaxyCount=
+
+Number(value);
+
+
+
+createStars();
+
+
+
+localStorage.setItem(
+
+"hm_galaxy_count",
+
+value
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+THEMES
+
+===================================================== */
+
+
+
+function clearSeasonClasses(){
+
+
+
+document.body.classList.remove(
+
+"galaxy-mode",
+
+"season-summer",
+
+"season-spring",
+
+"season-autumn",
+
+"season-winter",
+
+"season-secret",
+
+"theme-ocean",
+
+"theme-emerald",
+
+"theme-red",
+
+"theme-pink",
+
+"theme-neon",
+
+"theme-cyber",
+
+"theme-purple",
+
+"theme-gold",
+
+"theme-lava",
+
+"theme-ice",
+
+"theme-forest",
+
+"theme-sunset",
+
+"theme-monochrome",
+
+"theme-void",
+
+"theme-mint",
+
+"theme-royal"
+
+);
+
+
+
+}
+
+
+
+function changeTheme(theme){
+
+
+
+clearSeasonClasses();
+
+
+
+if(theme==="galaxy"){
+
+
+
+document.body.classList.add(
+
+"galaxy-mode"
+
+);
+
+
+
+createSeasonParticles("✨");
+
+
+
+}
+
+
+
+else if(theme==="summer"){
+
+
+
+document.body.classList.add(
+
+"season-summer"
+
+);
+
+
+
+createSeasonParticles("☀️");
+
+
+
+}
+
+
+
+else if(theme==="spring"){
+
+
+
+document.body.classList.add(
+
+"season-spring"
+
+);
+
+
+
+createSeasonParticles("🌸");
+
+
+
+}
+
+
+
+else if(theme==="autumn"){
+
+
+
+document.body.classList.add(
+
+"season-autumn"
+
+);
+
+
+
+createSeasonParticles("🍂");
+
+
+
+}
+
+
+
+else if(theme==="winter"){
+
+
+
+document.body.classList.add(
+
+"season-winter"
+
+);
+
+
+
+createSeasonParticles("❄️");
+
+
+
+}
+
+
+
+else if(theme==="secret"){
+
+
+
+document.body.classList.add(
+
+"season-secret"
+
+);
+
+
+
+createSeasonParticles("💜");
+
+
+
+}
+
+
+
+else if(theme==="ocean"){ document.body.classList.add("theme-ocean"); createSeasonParticles("💧"); }
+
+else if(theme==="emerald"){ document.body.classList.add("theme-emerald"); createSeasonParticles("💚"); }
+
+else if(theme==="red"){ document.body.classList.add("theme-red"); createSeasonParticles("❤️"); }
+
+else if(theme==="pink"){ document.body.classList.add("theme-pink"); createSeasonParticles("💗"); }
+
+else if(theme==="neon"){ document.body.classList.add("theme-neon"); createSeasonParticles("🟢"); }
+
+else if(theme==="cyber"){ document.body.classList.add("theme-cyber"); createSeasonParticles("⚡"); }
+
+else if(theme==="purple"){ document.body.classList.add("theme-purple"); createSeasonParticles("💜"); }
+
+else if(theme==="gold"){ document.body.classList.add("theme-gold"); createSeasonParticles("✨"); }
+
+else if(theme==="lava"){ document.body.classList.add("theme-lava"); createSeasonParticles("🔥"); }
+
+else if(theme==="ice"){ document.body.classList.add("theme-ice"); createSeasonParticles("❄️"); }
+
+else if(theme==="forest"){ document.body.classList.add("theme-forest"); createSeasonParticles("🍃"); }
+
+else if(theme==="sunset"){ document.body.classList.add("theme-sunset"); createSeasonParticles("🌅"); }
+
+else if(theme==="monochrome"){ document.body.classList.add("theme-monochrome"); createSeasonParticles("⚪"); }
+
+else if(theme==="void"){ document.body.classList.add("theme-void"); createSeasonParticles("🕳️"); }
+
+else if(theme==="mint"){ document.body.classList.add("theme-mint"); createSeasonParticles("🌿"); }
+
+else if(theme==="royal"){ document.body.classList.add("theme-royal"); createSeasonParticles("👑"); }
+
+
+
+else{
+
+
+
+document.getElementById(
+
+"seasonParticles"
+
+).innerHTML="";
+
+
+
+}
+
+
+
+localStorage.setItem(
+
+"hm_theme",
+
+theme
+
+);
+
+
+
+}
+
+
+
+/* =====================================================
+
+SEASON PARTICLES
+
+===================================================== */
+
+
+
+function createSeasonParticles(symbol){
+
+
+
+const container=
+
+document.getElementById(
+
+"seasonParticles"
+
+);
+
+
+
+container.innerHTML="";
+
+
+
+for(let i=0;i<35;i++){
+
+
+
+const particle=
+
+document.createElement("div");
+
+
+
+particle.className=
+
+"season-particle";
+
+
+
+particle.textContent=
+
+symbol;
+
+
+
+particle.style.left=
+
+Math.random()*100+"%";
+
+
+
+particle.style.fontSize=
+
+(8+Math.random()*18)+"px";
+
+
+
+particle.style.animationDuration=
+
+(5+Math.random()*8)+"s";
+
+
+
+particle.style.animationDelay=
+
+(-Math.random()*10)+"s";
+
+
+
+container.appendChild(
+
+particle
+
+);
+
+
+
+}
+
+
+
+}
+
+
+
+/* =====================================================
+
+SECRET MODE
+
+===================================================== */
+
+
+
+let secretClicks=0;
+
+
+
+document
+
+.querySelector(".version")
+
+.addEventListener(
+
+"click",
+
+()=>{
+
+
+
+secretClicks++;
+
+
+
+if(secretClicks>=5){
+
+
+
+secretClicks=0;
+
+
+
+document.getElementById(
+
+"themeSelect"
+
+).value="secret";
+
+
+
+changeTheme("secret");
+
+
+
+alert(
+
+"🔒 Секретный режим HypeMine активирован!"
+
+);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+/* =====================================================
+
+PROFILE
+
+===================================================== */
+
+
+
+function getAccount(){
+
+  try{return JSON.parse(localStorage.getItem("hm_account")||"null");}
+
+  catch(e){return null;}
+
+}
+
+
+
+function makeAccountId(){
+
+  // Уникальный ID нового пользователя: например HM-48273195
+
+  const random = new Uint32Array(1);
+
+  if(window.crypto && crypto.getRandomValues){
+
+    crypto.getRandomValues(random);
+
+    return "HM-" + String(random[0] % 100000000).padStart(8,"0");
+
+  }
+
+  return "HM-" + String(Math.floor(Math.random()*100000000)).padStart(8,"0");
+
+}
+
+
+
+function registerOrLogin(){
+
+  const old=getAccount();
+
+  const name=prompt("Введите никнейм:",old?.name||"");
+
+  if(!name || !name.trim())return;
+
+  const email=prompt("Введите email:",old?.email||"");
+
+  if(!email || !email.trim())return;
+
+  const account=old||{id:makeAccountId(),createdAt:new Date().toISOString(),avatar:"👤"};
+
+  // Если старому профилю ID ещё не был выдан — выдаём его автоматически.
+
+  if(!account.id) account.id=makeAccountId();
+
+  account.name=name.trim();
+
+  account.email=email.trim();
+
+  localStorage.setItem("hm_account",JSON.stringify(account));
+
+  loadProfile();
+
+applyExtraVisualSettings();
+
+applyAdvancedSettings();
+
+  alert(old?"Профиль обновлён!":"Аккаунт создан и сохранён в этом браузере.");
+
+}
+
+
+
+function editProfile(){
+
+  const account=getAccount();
+
+  if(!account){registerOrLogin();return;}
+
+  const name=prompt("Новый никнейм:",account.name);
+
+  if(name && name.trim())account.name=name.trim();
+
+  const email=prompt("Новый email:",account.email);
+
+  if(email && email.trim())account.email=email.trim();
+
+  localStorage.setItem("hm_account",JSON.stringify(account));
+
+  loadProfile();
+
+}
+
+
+
+function changeAvatar(){
+
+  const account=getAccount();
+
+  if(!account){alert("Сначала создай аккаунт.");return;}
+
+  const input=document.getElementById("avatarFileInput");
+
+  if(input){
+
+    input.value="";
+
+    input.click();
+
+  }
+
+}
+
+
+
+function handleAvatarFile(event){
+
+  const file=event.target.files && event.target.files[0];
+
+  const account=getAccount();
+
+  if(!file || !account)return;
+
+  if(!file.type.startsWith("image/")){
+
+    alert("Выбери изображение.");
+
+    return;
+
+  }
+
+  if(file.size>5*1024*1024){
+
+    alert("Фото должно быть не больше 5 МБ.");
+
+    return;
+
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+
+    account.avatar=reader.result;
+
+    account.avatarType="image";
+
+    localStorage.setItem("hm_account",JSON.stringify(account));
+
+    loadProfile();
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+
+function logoutProfile(){
+
+  if(!getAccount())return;
+
+  if(!confirm("Выйти из аккаунта? Данные профиля будут удалены из этого браузера."))return;
+
+  localStorage.removeItem("hm_account");
+
+  loadProfile();
+
+}
+
+
+
+function loadProfile(){
+
+  const account=getAccount();
+
+  const name=document.getElementById("profileName");
+
+  const email=document.getElementById("profileEmail");
+
+  const avatar=document.getElementById("profileAvatar");
+
+  const login=document.getElementById("profileLoginBtn");
+
+  const edit=document.getElementById("profileEditBtn");
+
+  const logout=document.getElementById("profileLogoutBtn");
+
+  const verifiedBadge=document.getElementById("profileVerifiedBadge");
+
+
+
+  // Подтверждённый аккаунт Sergey Gnezdilov.
+
+  const isVerifiedAccount =
+
+    account &&
+
+    String(account.name || "").trim().toLowerCase() === "sergey gnezdilov" &&
+
+    String(account.email || "").trim().toLowerCase() === "sergeygnezdilovv@gmail.com";
+
+
+
+  if(verifiedBadge){
+
+    verifiedBadge.style.display=isVerifiedAccount ? "inline-flex" : "none";
+
+  }
+
+
+
+  if(!account){
+
+    document.getElementById("miniName").textContent="Гость";
+
+    const miniAvatar=document.getElementById("miniAvatar");
+
+    name.textContent="Гость"; email.textContent="Аккаунт не зарегистрирован"; avatar.textContent="👤"; avatar.style.backgroundImage="";
+
+    if(miniAvatar){miniAvatar.textContent="👤"; miniAvatar.style.backgroundImage="";}
+
+    document.getElementById("profileSince").textContent="Новый пользователь";
+
+    document.getElementById("profileNickField").textContent="Гость";
+
+    document.getElementById("profileEmailField").textContent="—";
+
+    document.getElementById("profileIdField").textContent="—";
+
+    login.style.display="inline-flex"; edit.style.display="none"; logout.style.display="none";
+
+    return;
+
+  }
+
+  if(!account.id){
+
+    account.id=makeAccountId();
+
+    localStorage.setItem("hm_account",JSON.stringify(account));
+
+  }
+
+  document.getElementById("miniName").textContent=account.name;
+
+  name.textContent=account.name;
+
+  email.textContent=account.email;
+
+  if(verifiedBadge){
+
+    verifiedBadge.style.display=isVerifiedAccount ? "inline-flex" : "none";
+
+  }
+
+  const miniAvatar=document.getElementById("miniAvatar");
+
+  if(account.avatarType==="image" && account.avatar){
+
+    if(miniAvatar){miniAvatar.textContent=""; miniAvatar.style.backgroundImage=`url("${account.avatar}")`; miniAvatar.style.backgroundSize="cover"; miniAvatar.style.backgroundPosition="center"; miniAvatar.style.backgroundRepeat="no-repeat";}
+
+    avatar.textContent="";
+
+    avatar.style.backgroundImage=`url("${account.avatar}")`;
+
+    avatar.style.backgroundSize="cover";
+
+    avatar.style.backgroundPosition="center";
+
+    avatar.style.backgroundRepeat="no-repeat";
+
+  }else{
+
+    avatar.style.backgroundImage="";
+
+    avatar.textContent=account.avatar||"👤";
+
+    if(miniAvatar){miniAvatar.style.backgroundImage=""; miniAvatar.textContent=account.avatar||"👤";}
+
+  }
+
+  document.getElementById("profileNickField").textContent=account.name;
+
+  document.getElementById("profileEmailField").textContent=account.email;
+
+  document.getElementById("profileIdField").textContent=account.id||"—";
+
+  document.getElementById("profileSince").textContent=account.createdAt?"Участник с "+new Date(account.createdAt).toLocaleDateString("ru-RU"):"Участник HypeMine";
+
+  login.style.display="none"; edit.style.display="inline-flex"; logout.style.display="inline-flex";
+
+  if(account.name==="Sergey Gnezdilov" && document.getElementById("adminPanel"))document.getElementById("adminPanel").style.display="block";
+
+}
+
+
+
+function openAuthorProfile(id){const bs=getAuthorBuilds(id),a=bs[0]?.author||currentAuthorSnapshot(),m=document.getElementById("authorProfileModal");if(!m)return;document.getElementById("authorProfileName").textContent=a.name||"Гость";document.getElementById("authorProfileBio").textContent=a.premium?"👑 HypeMine-Premium":"Пользователь HypeMine Builds";const av=document.getElementById("authorProfileAvatar");av.innerHTML=a.avatarType==="image"&&a.avatar?`<img src="${escapeHtml(a.avatar)}">`:escapeHtml(a.avatar||"👤");document.getElementById("authorPremiumBadge").style.display=a.premium?"inline-flex":"none";const st=getAuthorStats(id);document.getElementById("authorFollowers").textContent=st.followers;document.getElementById("authorLikes").textContent=st.likes;document.getElementById("authorViews").textContent=st.views;document.getElementById("authorDownloads").textContent=st.downloads;const fb=document.getElementById("authorFollowButton");fb.textContent=followedAuthors.has(id)?"✓ Вы подписаны":"＋ Подписаться";fb.onclick=()=>toggleFollowAuthor(id);document.getElementById("authorBuildsGrid").innerHTML=bs.length?bs.map(card).join(""):`<p style="color:var(--muted)">Автор ещё ничего не загрузил.</p>`;const h=JSON.parse(localStorage.getItem("hm_download_history")||"[]");document.getElementById("authorDownloadedList").innerHTML=h.filter(x=>bs.some(b=>b.id===x.id)).map(x=>`<span class="tag">📥 ${escapeHtml(x.name)}</span>`).join("")||`<span class="tag">Пока нет скачиваний</span>`;m.classList.add("show");}
+function closeAuthorProfile(){document.getElementById("authorProfileModal")?.classList.remove("show");}
+function toggleFollowAuthor(id){if(followedAuthors.has(id))followedAuthors.delete(id);else followedAuthors.add(id);saveBuildStats();openAuthorProfile(id);}
+function connectPaymentCard(){if(localStorage.getItem("hm_card_linked")==="true")localStorage.removeItem("hm_card_linked");else{alert("Для реальной привязки нужна серверная платёжная форма. Данные карты в этой HTML-версии не вводятся и не сохраняются.");localStorage.setItem("hm_card_linked","true");}updateAccountLinks();}
+function connectMicrosoft(){if(localStorage.getItem("hm_microsoft_linked")==="true")localStorage.removeItem("hm_microsoft_linked");else{alert("Для настоящей Microsoft OAuth-авторизации нужен сервер и зарегистрированное приложение Microsoft Entra ID. Сейчас меняется только статус интерфейса.");localStorage.setItem("hm_microsoft_linked","true");}updateAccountLinks();}
+function updateAccountLinks(){const c=document.getElementById("cardLinkStatus"),m=document.getElementById("microsoftLinkStatus");if(c)c.textContent=localStorage.getItem("hm_card_linked")==="true"?"Привязана":"Не привязана";if(m)m.textContent=localStorage.getItem("hm_microsoft_linked")==="true"?"Подключён":"Не подключён";}
+
+/* =====================================================
+
+PREMIUM
+
+===================================================== */
+
+
+
+function givePremium(){
+
+
+
+const account=
+
+JSON.parse(
+
+localStorage.getItem(
+
+"hm_account"
+
+)||"null"
+
+);
+
+
+
+if(
+
+!account ||
+
+account.name!=="Sergey Gnezdilov"
+
+){
+
+
+
+alert(
+
+"⛔ Доступ запрещён."
+
+);
+
+
+
+return;
+
+
+
+}
+
+
+
+const input=
+
+document.getElementById(
+
+"premiumNick"
+
+);
+
+
+
+const nick=
+
+input.value.trim();
+
+
+
+if(!nick){
+
+
+
+alert(
+
+"❌ Введи ник игрока."
+
+);
+
+
+
+return;
+
+
+
+}
+
+
+
+let premiumPlayers=
+
+JSON.parse(
+
+localStorage.getItem(
+
+"hm_premium_players"
+
+)||"[]"
+
+);
+
+
+
+if(
+
+premiumPlayers.some(
+
+x=>
+
+x.toLowerCase()===
+
+nick.toLowerCase()
+
+)
+
+){
+
+
+
+document.getElementById(
+
+"premiumResult"
+
+).textContent=
+
+"⚠️ У игрока "+
+
+nick+
+
+" уже есть HypeMine-Premium.";
+
+
+
+return;
+
+
+
+}
+
+
+
+premiumPlayers.push(nick);
+
+
+
+localStorage.setItem(
+
+"hm_premium_players",
+
+JSON.stringify(
+
+premiumPlayers
+
+)
+
+);
+
+
+
+document.getElementById(
+
+"premiumResult"
+
+).innerHTML=
+
+"👑 <b style='color:var(--accent2)'>HypeMine-Premium</b> выдан игроку <b>"+
+
+nick+
+
+"</b>.";
+
+
+
+input.value="";
+
+
+
+}
+
+
+
+
+
+/* =====================================================
+
+ADVANCED SETTINGS
+
+===================================================== */
+
+
+
+function settingBool(key, defaultValue){
+
+  const value=localStorage.getItem(key);
+
+  return value===null ? defaultValue : value==="true";
+
+}
+
+
+
+function setSettingBool(key,value){
+
+  localStorage.setItem(key,String(value));
+
+}
+
+
+
+function applyAdvancedSettings(){
+
+  const compact=settingBool("hm_compact",false);
+
+  const tips=settingBool("hm_tips",true);
+
+  const wide=settingBool("hm_wide",false);
+
+  const notify=settingBool("hm_notifications",true);
+
+  const sounds=settingBool("hm_ui_sounds",false);
+
+  const autosave=settingBool("hm_autosave",true);
+
+
+
+  document.body.classList.toggle("hm-compact",compact);
+
+  document.body.classList.toggle("hm-wide",wide);
+
+  document.body.classList.toggle("hm-no-tips",!tips);
+
+
+
+  const pairs=[
+
+    ["compactSwitch",compact],
+
+    ["tipsSwitch",tips],
+
+    ["wideSwitch",wide],
+
+    ["notifySwitch",notify],
+
+    ["uiSoundSwitch",sounds],
+
+    ["autosaveSwitch",autosave]
+
+  ];
+
+
+
+  pairs.forEach(([id,on])=>{
+
+    const el=document.getElementById(id);
+
+    if(el)el.classList.toggle("on",on);
+
+  });
+
+
+
+  const volume=localStorage.getItem("hm_site_volume");
+
+  const range=document.getElementById("siteVolumeRange");
+
+  if(range)range.value=volume===null?50:volume;
+
+
+
+  updateStorageStatus();
+
+}
+
+
+
+function toggleCompactMode(){
+
+  const value=!settingBool("hm_compact",false);
+
+  setSettingBool("hm_compact",value);
+
+  applyAdvancedSettings();
+
+}
+
+
+
+function toggleTips(){
+
+  const value=!settingBool("hm_tips",true);
+
+  setSettingBool("hm_tips",value);
+
+  applyAdvancedSettings();
+
+}
+
+
+
+function toggleWideMode(){
+
+  const value=!settingBool("hm_wide",false);
+
+  setSettingBool("hm_wide",value);
+
+  applyAdvancedSettings();
+
+}
+
+
+
+function toggleNotifications(){
+
+  const value=!settingBool("hm_notifications",true);
+
+  setSettingBool("hm_notifications",value);
+
+  applyAdvancedSettings();
+
+  if(value && "Notification" in window && Notification.permission==="default"){
+
+    Notification.requestPermission().catch(()=>{});
+
+  }
+
+}
+
+
+
+function toggleUISounds(){
+
+  const value=!settingBool("hm_ui_sounds",false);
+
+  setSettingBool("hm_ui_sounds",value);
+
+  applyAdvancedSettings();
+
+  if(value)playUISound();
+
+}
+
+
+
+function toggleAutosave(){
+
+  const value=!settingBool("hm_autosave",true);
+
+  setSettingBool("hm_autosave",value);
+
+  applyAdvancedSettings();
+
+}
+
+
+
+function changeSiteVolume(value){
+
+  localStorage.setItem("hm_site_volume",value);
+
+  const volume=Number(value)/100;
+
+  if(typeof audio!=="undefined" && audio)audio.volume=volume;
+
+}
+
+
+
+function playUISound(){
+
+  if(!settingBool("hm_ui_sounds",false))return;
+
+  try{
+
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+
+    const osc=ctx.createOscillator();
+
+    const gain=ctx.createGain();
+
+    osc.frequency.value=620;
+
+    gain.gain.value=.025;
+
+    osc.connect(gain);
+
+    gain.connect(ctx.destination);
+
+    osc.start();
+
+    osc.stop(ctx.currentTime+.055);
+
+  }catch(e){}
+
+}
+
+
+
+function showHotkeys(){
+
+  alert(
+
+`⌨️ ГОРЯЧИЕ КЛАВИШИ
+
+
+
+Alt + 1 — Каталог
+
+Alt + 2 — Карты
+
+Alt + 3 — Моды
+
+Alt + 4 — Шейдеры
+
+Alt + 5 — Плагины
+
+Alt + 6 — Избранное
+
+Alt + 7 — Музыка
+
+Alt + 8 — Профиль
+
+Alt + 9 — Настройки
+
+
+
+Enter в поиске — выполнить поиск`
+
+  );
+
+}
+
+
+
+function clearSiteData(){
+
+  if(!confirm("Очистить сохранённые настройки и избранное этого браузера?"))return;
+
+
+
+  [
+
+    "hm_color",
+
+    "hm_animations",
+
+    "hm_cursor",
+
+    "hm_smooth",
+
+    "hm_theme",
+
+    "hm_stars",
+
+    "hm_galaxy_count",
+
+    "hm_reduced_motion",
+
+    "hm_compact",
+
+    "hm_tips",
+
+    "hm_wide",
+
+    "hm_notifications",
+
+    "hm_ui_sounds",
+
+    "hm_site_volume",
+
+    "hm_autosave",
+
+    "hm_favorites"
+
+  ].forEach(k=>localStorage.removeItem(k));
+
+
+
+  alert("✅ Локальные данные очищены.");
+
+  location.reload();
+
+}
+
+
+
+function updateStorageStatus(){
+
+  const el=document.getElementById("storageStatusText");
+
+  if(!el)return;
+
+
+
+  let total=0;
+
+  for(let i=0;i<localStorage.length;i++){
+
+    const key=localStorage.key(i);
+
+    total+=(key?key.length:0)+(localStorage.getItem(key)||"").length;
+
+  }
+
+
+
+  el.textContent="Используется примерно "+Math.max(1,Math.round(total/1024))+" КБ";
+
+}
+
+
+
+document.addEventListener("keydown",e=>{
+
+  if(!e.altKey)return;
+
+
+
+  const pages={
+
+    "1":"catalog",
+
+    "2":"maps",
+
+    "3":"mods",
+
+    "4":"shaders",
+
+    "5":"plugins",
+
+    "6":"favorites",
+
+    "7":"music",
+
+    "8":"profile",
+
+    "9":"settings"
+
+  };
+
+
+
+  if(pages[e.key]){
+
+    e.preventDefault();
+
+    openPageByName(pages[e.key]);
+
+  }
+
+});
+
+
+
+document.addEventListener("click",()=>{
+
+  playUISound();
+
+},{passive:true});
+
+
+
+/* EXTRA VISUAL FUNCTIONS */
+
+function changeAnimationStyle(v){document.body.classList.remove("anim-bounce","anim-zoom","anim-slide","anim-float","anim-neon","anim-glitch");if(!["classic","smooth"].includes(v))document.body.classList.add("anim-"+v);localStorage.setItem("hm_animation_style",v)}
+
+function changeHoverStyle(v){document.body.classList.remove("hover-glow","hover-scale","hover-tilt","hover-none");if(v!=="lift")document.body.classList.add("hover-"+v);localStorage.setItem("hm_hover_style",v)}
+
+function changePageAnimation(v){document.body.classList.remove("page-slide","page-zoom","page-blur");if(v!=="fade"&&v!=="none")document.body.classList.add("page-"+v);localStorage.setItem("hm_page_animation",v)}
+
+function changeAnimationIntensity(v){document.documentElement.style.setProperty("--animation-intensity",Number(v)/100);localStorage.setItem("hm_animation_intensity",v)}
+
+function toggleFloatingElements(){const on=!settingBool("hm_floating",true);setSettingBool("hm_floating",on);document.body.classList.toggle("hm-floating",on);const e=document.getElementById("floatingSwitch");if(e)e.classList.toggle("on",on)}
+
+function applyExtraVisualSettings(){const a=document.getElementById("animationStyleSelect"),h=document.getElementById("hoverStyleSelect"),p=document.getElementById("pageAnimationSelect"),r=document.getElementById("animationIntensityRange");const av=localStorage.getItem("hm_animation_style")||"smooth",hv=localStorage.getItem("hm_hover_style")||"lift",pv=localStorage.getItem("hm_page_animation")||"fade",rv=localStorage.getItem("hm_animation_intensity")||"70";if(a)a.value=av;if(h)h.value=hv;if(p)p.value=pv;if(r)r.value=rv;changeAnimationStyle(av);changeHoverStyle(hv);changePageAnimation(pv);changeAnimationIntensity(rv);const f=settingBool("hm_floating",true);document.body.classList.toggle("hm-floating",f);const fe=document.getElementById("floatingSwitch");if(fe)fe.classList.toggle("on",f)}
+
+const _cc=window.changeCursor;if(typeof _cc==="function"){window.changeCursor=function(v){_cc(v);["circle","dot","cross","ring","diamond","star","spark","target","pixel","arrow","comet","rainbow","neon"].forEach(x=>document.body.classList.remove("cursor-"+x));if(v!=="off")document.body.classList.add("cursor-"+v);localStorage.setItem("hm_cursor",v)}}
+
+const _ct=window.changeTheme;if(typeof _ct==="function"){window.changeTheme=function(v){_ct(v);["aurora","midnight","sakura","space","matrix","crimson","sky","coffee","hologram","toxic","diamond","volcano","rain","pixel"].forEach(x=>document.body.classList.remove("theme-"+x));if(["aurora","midnight","sakura","space","matrix","crimson","sky","coffee","hologram","toxic","diamond","volcano","rain","pixel"].includes(v))document.body.classList.add("theme-"+v)}}
+
+
+
+/* =====================================================
+
+RESET
+
+===================================================== */
+
+
+
+function resetSettings(){
+
+
+
+if(
+
+!confirm(
+
+"Сбросить все настройки сайта?"
+
+)
+
+){
+
+
+
+return;
+
+
+
+}
+
+
+
+localStorage.removeItem("hm_color");
+
+localStorage.removeItem("hm_animations");
+
+localStorage.removeItem("hm_cursor");
+
+localStorage.removeItem("hm_smooth");
+
+localStorage.removeItem("hm_theme");
+
+localStorage.removeItem("hm_stars");
+
+localStorage.removeItem("hm_galaxy_count");
+
+localStorage.removeItem("hm_reduced_motion");
+localStorage.removeItem("hm_card_linked");localStorage.removeItem("hm_microsoft_linked");
+
+
+
+location.reload();
+
+
+
+}
+
+
+
+/* =====================================================
+
+MOUSE
+
+===================================================== */
+
+
+
+document.addEventListener(
+
+"mousemove",
+
+e=>{
+
+
+
+document.documentElement.style.setProperty(
+
+"--mouse-x",
+
+e.clientX+"px"
+
+);
+
+
+
+document.documentElement.style.setProperty(
+
+"--mouse-y",
+
+e.clientY+"px"
+
+);
+
+
+
+}
+
+);
+
+
+
+/* =====================================================
+
+KEYBOARD
+
+===================================================== */
+
+
+
+document.addEventListener(
+
+"keydown",
+
+e=>{
+
+
+
+if(e.key==="Escape"){
+
+
+
+closeModal();
+
+
+
+}
+
+
+
+if(
+
+e.code==="Space" &&
+
+document.activeElement.tagName!=="INPUT" &&
+
+document.activeElement.tagName!=="SELECT"
+
+){
+
+
+
+e.preventDefault();
+
+
+
+toggleMusic();
+
+
+
+}
+
+
+
+if(
+
+e.ctrlKey &&
+
+e.key.toLowerCase()==="k"
+
+){
+
+
+
+e.preventDefault();
+
+
+
+document.getElementById(
+
+"globalSearch"
+
+).focus();
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+/* =====================================================
+
+SAVED SETTINGS
+
+===================================================== */
+
+
+
+const savedColor=
+
+localStorage.getItem("hm_color");
+
+
+
+if(savedColor){
+
+
+
+document.documentElement.style.setProperty(
+
+"--accent",
+
+savedColor
+
+);
+
+
+
+document.documentElement.style.setProperty(
+
+"--accent2",
+
+savedColor
+
+);
+
+
+
+document
+
+.querySelectorAll(".color")
+
+.forEach(button=>{
+
+
+
+if(
+
+button.style.backgroundColor===
+
+savedColor
+
+){
+
+
+
+button.classList.add("active");
+
+
+
+}
+
+
+
+});
+
+
+
+}
+
+
+
+if(
+
+localStorage.getItem(
+
+"hm_animations"
+
+)==="false"
+
+){
+
+
+
+document.body.classList.add(
+
+"no-animations"
+
+);
+
+
+
+document
+
+.getElementById(
+
+"animationSwitch"
+
+)
+
+.classList.remove("on");
+
+
+
+}
+
+
+
+const savedCursor=
+
+localStorage.getItem(
+
+"hm_cursor"
+
+);
+
+
+
+if(savedCursor){
+
+
+
+document.getElementById(
+
+"cursorSelect"
+
+).value=
+
+savedCursor;
+
+
+
+changeCursor(savedCursor);
+
+
+
+}
+
+
+
+const savedSmooth=
+
+localStorage.getItem(
+
+"hm_smooth"
+
+);
+
+
+
+if(savedSmooth){
+
+
+
+document.getElementById(
+
+"smoothSelect"
+
+).value=
+
+savedSmooth;
+
+
+
+changeSmooth(savedSmooth);
+
+
+
+}
+
+
+
+const savedTheme=
+
+localStorage.getItem(
+
+"hm_theme"
+
+);
+
+
+
+if(savedTheme){
+
+
+
+document.getElementById(
+
+"themeSelect"
+
+).value=
+
+savedTheme;
+
+
+
+changeTheme(savedTheme);
+
+
+
+}
+
+
+
+const savedStars=
+
+localStorage.getItem(
+
+"hm_stars"
+
+);
+
+
+
+if(savedStars!==null){
+
+
+
+galaxyEnabled=
+
+savedStars==="true";
+
+
+
+document
+
+.getElementById(
+
+"starsSwitch"
+
+)
+
+.classList.toggle(
+
+"on",
+
+galaxyEnabled
+
+);
+
+
+
+}
+
+
+
+const savedGalaxyCount=
+
+localStorage.getItem(
+
+"hm_galaxy_count"
+
+);
+
+
+
+if(savedGalaxyCount){
+
+
+
+galaxyCount=
+
+Number(savedGalaxyCount);
+
+
+
+document.getElementById(
+
+"galaxyIntensity"
+
+).value=
+
+savedGalaxyCount;
+
+
+
+}
+
+
+
+const savedVolume=
+
+localStorage.getItem(
+
+"hm_volume"
+
+);
+
+
+
+if(savedVolume!==null){
+
+
+
+volume.value=
+
+savedVolume;
+
+
+
+audio.volume=
+
+savedVolume;
+
+
+
+}else{
+
+
+
+audio.volume=.5;
+
+
+
+}
+
+
+
+
+
+function openYoutubeProfileFromSearch(){
+
+  openPageByName("profile");
+
+
+
+  setTimeout(()=>{
+
+    const card=document.getElementById("youtubeProfileCard");
+
+    if(card){
+
+      card.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"center"
+
+      });
+
+
+
+      card.classList.remove("youtube-highlight");
+
+      void card.offsetWidth;
+
+      card.classList.add("youtube-highlight");
+
+
+
+      setTimeout(()=>{
+
+        card.classList.remove("youtube-highlight");
+
+      },1700);
+
+    }
+
+  },180);
+
+}
+
+function setupYoutubeSearchShortcut(){
+
+  const search=document.getElementById("globalSearch");
+
+  if(!search)return;
+
+
+
+  search.addEventListener("keydown",function(event){
+
+    if(event.key!=="Enter")return;
+
+
+
+    const value=search.value.trim().toLowerCase();
+
+    const youtubeQuery =
+
+      value.includes("youtube") ||
+
+      value.includes("zetimods") ||
+
+      value.includes("@zetimods");
+
+
+
+    if(youtubeQuery){
+
+      event.preventDefault();
+
+      openYoutubeProfileFromSearch();
+
+    }
+
+  });
+
+}
+
+
+
+function copyYoutubeChannel(){
+
+  const url="https://youtube.com/@zetimods";
+
+  if(navigator.clipboard && window.isSecureContext){
+
+    navigator.clipboard.writeText(url).then(()=>{
+
+      alert("Ссылка на YouTube-канал скопирована!");
+
+    }).catch(()=>{
+
+      prompt("Скопируй ссылку:",url);
+
+    });
+
+  }else{
+
+    prompt("Скопируй ссылку:",url);
+
+  }
+
+}
+
+
+
+/* =====================================================
+
+INIT
+
+===================================================== */
+
+
+
+window.addEventListener(
+
+"resize",
+
+resizeCanvas
+
+);
+
+
+
+resizeCanvas();
+
+
+
+drawGalaxy();
+
+
+
+loadProfile();
+
+setupYoutubeSearchShortcut();
+
+
+
+renderAll();
+
+
+
+renderMusic();
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
